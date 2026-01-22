@@ -98,6 +98,22 @@ class Solution:
 
         return -1
 
+# 125. Valid Palindrome (Easy)
+
+class Solution:
+    def isPalindrome(self, s):
+        
+        #filtered = []
+        #for c in s:
+        #    if c.isalnum():
+        #        filtered.append(c.lower())
+
+        #return filtered == filtered[::-1]
+
+
+        s = s.lower()
+        s = re.sub('[^0-9a-z]', "", s)
+        return s == s[::-1]
 
 
 
