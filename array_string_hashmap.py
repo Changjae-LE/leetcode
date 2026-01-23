@@ -98,6 +98,10 @@ class Solution:
 
         return -1
 
+# ========================================================
+# String : 2 questions
+# ========================================================
+
 # 125. Valid Palindrome (Easy)
 
 class Solution:
@@ -115,10 +119,29 @@ class Solution:
         s = re.sub('[^0-9a-z]', "", s)
         return s == s[::-1]
 
+# 424. Longest Repeating Character Replacement
 
+class Solution:
+    def characterReplacement(self, s, k):
+        freq = {}
+        l = 0
+        max_freq = 0
+        result = 0
 
+        for r in range(len(s)):
+            c = s[r]
+            freq[c] = freq.get(c, 0) + 1
 
+            max_freq = max(max_freq, freq[c])
 
+            while (r - l + 1) - max_freq > k:
+                left_c = s[l]
+                freq[left_c] -= 1
+                l += 1
+
+            result = max(result, r - l + 1)
+
+        return result
 
 
 
