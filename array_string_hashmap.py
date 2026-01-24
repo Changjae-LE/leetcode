@@ -170,6 +170,14 @@ class Solution:
 #                if len(res) == k:
 #                    return res
 
+    def topKFrequent(self, nums, k):
+        freq = defaultdict(int)
+        for n in nums:
+            freq[n] += 1
+
+        freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:k]
+
+        return [n[0] for n in freq]
 
 
 
