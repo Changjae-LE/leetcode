@@ -119,7 +119,7 @@ class Solution:
         s = re.sub('[^0-9a-z]', "", s)
         return s == s[::-1]
 
-# 424. Longest Repeating Character Replacement
+# 424. Longest Repeating Character Replacement (Medium)
 
 class Solution:
     def characterReplacement(self, s, k):
@@ -143,10 +143,32 @@ class Solution:
 
         return result
 
+# ========================================================
+# Hashmap : 3 questions
+# ========================================================
+
+# 347. Top K Frequent Elements (Medium)
+
+#class Solution:
+#    def topKFrequent(self, nums, k):
+#        dic_nums = {}
+#        for num in nums:
+#            if num not in dic_nums:
+#                dic_nums[num] = 1
+#            else:
+#                dic_nums[num] += 1
 
 
-
-
+#        bucket = [[] for _ in range(len(nums)+1)]# 2. bucket <- value, frequency
+#        for num, freq in dic_nums.items():
+#            bucket[freq].append(num)
+        
+#        res = []
+#        for i in range(len(bucket)-1, 0, -1):
+#            for num in bucket[i]:
+#                res.append(num)
+#                if len(res) == k:
+#                    return res
 
 
 
