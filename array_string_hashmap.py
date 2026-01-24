@@ -57,7 +57,8 @@ class Solution:
         return max_profit
     
 # 209. Minimum Size Subarray Sum (Medium)
-
+# Time Complexity: O(n)
+# Space Complexity: O(1)
 class Solution:
     def minSubArrayLen(self, nums, target):
         
@@ -83,19 +84,20 @@ class Solution:
 
 class Solution:
     def firstUniqChar(self, s):
-        dic_s={}
-        dic_s = {}
-
-        for c in s:
-            if c in dic_s:
-                dic_s[c] += 1
-            else:
-                dic_s[c] = 1
-
+        #c_dict = defaultdict(int)
+        #for c in s:
+        #    c_dict[c] += 1
+        
+        #for i in range(len(s)):
+        #    if c_dict[s[i]] == 1:
+        #        return i
+        
+        #return -1
+    
+        cnt = Counter(s)
         for i, c in enumerate(s):
-            if dic_s[c] == 1:
+            if cnt[c] == 1:
                 return i
-
         return -1
 
 # ========================================================
