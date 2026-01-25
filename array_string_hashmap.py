@@ -151,28 +151,27 @@ class Solution:
 
 # 347. Top K Frequent Elements (Medium)
 
-#class Solution:
-#    def topKFrequent(self, nums, k):
-#        dic_nums = {}
-#        for num in nums:
-#            if num not in dic_nums:
-#                dic_nums[num] = 1
-#            else:
-#                dic_nums[num] += 1
-
-
-#        bucket = [[] for _ in range(len(nums)+1)]# 2. bucket <- value, frequency
-#        for num, freq in dic_nums.items():
-#            bucket[freq].append(num)
-        
-#        res = []
-#        for i in range(len(bucket)-1, 0, -1):
-#            for num in bucket[i]:
-#                res.append(num)
-#                if len(res) == k:
-#                    return res
-
+class Solution:
     def topKFrequent(self, nums, k):
+        #dic_nums = {}
+        #for num in nums:
+        #    if num not in dic_nums:
+        #        dic_nums[num] = 1
+        #    else:
+        #        dic_nums[num] += 1
+
+
+        #bucket = [[] for _ in range(len(nums)+1)]# 2. bucket <- value, frequency
+        #for num, freq in dic_nums.items():
+        #    bucket[freq].append(num)
+        
+        #res = []
+        #for i in range(len(bucket)-1, 0, -1):
+        #    for num in bucket[i]:
+        #        res.append(num)
+        #        if len(res) == k:
+        #            return res
+
         freq = defaultdict(int)
         for n in nums:
             freq[n] += 1
@@ -183,3 +182,31 @@ class Solution:
 
 
 
+class Solution:
+    def subarraySum(slef, nums, k):
+        #count_map = {0:1}
+        #cur_sum = 0
+        #count = 0
+        #for num in nums:
+        #    cur_sum += num
+
+        #    need = cur_sum - k # k = cur_sum - need
+        #    if need in count_map:
+        #        count += count_map[need]
+        #    if cur_sum in count_map:
+        #        count_map[cur_sum] += 1
+        #    else:
+        #        count_map[cur_sum] = 1
+        #return count
+        
+        count = 0
+        prefix = 0
+        freq = defaultdict(int)
+        freq[0] = 1  # prefix 합이 0인 상태가 1번 존재(아무것도 안 고른 상태)
+
+        for x in nums:
+            prefix += x
+            count += freq[prefix - k]
+            freq[prefix] += 1
+
+        return count
