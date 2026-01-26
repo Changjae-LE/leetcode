@@ -180,33 +180,46 @@ class Solution:
 
         return [n[0] for n in freq]
 
-
+# 560. Subarray Sum Equals K (Medium)
 
 class Solution:
     def subarraySum(slef, nums, k):
-        #count_map = {0:1}
-        #cur_sum = 0
+        #prefix_dict = {0: 1}
         #count = 0
-        #for num in nums:
-        #    cur_sum += num
+        #prefix = 0
 
-        #    need = cur_sum - k # k = cur_sum - need
-        #    if need in count_map:
-        #        count += count_map[need]
-        #    if cur_sum in count_map:
-        #        count_map[cur_sum] += 1
+        #for i in range(len(nums)):
+        #    prefix += nums[i]
+
+        #    need = prefix - k
+        #    if need in prefix_dict:
+        #        count += prefix_dict[need]
+        #    if prefix in prefix_dict:
+        #        prefix_dict[prefix] += 1
         #    else:
-        #        count_map[cur_sum] = 1
+        #        prefix_dict[prefix] = 1
         #return count
         
         count = 0
         prefix = 0
         freq = defaultdict(int)
-        freq[0] = 1  # prefix 합이 0인 상태가 1번 존재(아무것도 안 고른 상태)
-
+        freq[0] = 1  # base case
         for x in nums:
             prefix += x
             count += freq[prefix - k]
             freq[prefix] += 1
 
         return count
+
+# 49. Group Anagrams (Medium)
+
+class Solution:
+    def groupAnagrams(self, strs):
+        dic_str={}
+        for s in strs:
+            key = ''.join(sorted(s))
+            if key in dic_str:
+                dic_str[key].append(s)
+            else:
+                dic_str[key] = [s]
+        return list(dic_str.values())
