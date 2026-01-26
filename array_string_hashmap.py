@@ -178,7 +178,7 @@ class Solution:
 
         freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:k]
 
-        return [n[0] for n in freq]
+        return [n[0] for n in freq][:k]
 
 # 560. Subarray Sum Equals K (Medium)
 
@@ -204,8 +204,8 @@ class Solution:
         prefix = 0
         freq = defaultdict(int)
         freq[0] = 1  # base case
-        for x in nums:
-            prefix += x
+        for num in nums:
+            prefix += num
             count += freq[prefix - k]
             freq[prefix] += 1
 
@@ -215,11 +215,11 @@ class Solution:
 
 class Solution:
     def groupAnagrams(self, strs):
-        dic_str={}
+        str_dict = {}
         for s in strs:
-            key = ''.join(sorted(s))
-            if key in dic_str:
-                dic_str[key].append(s)
+            key = "".join(sorted(s))
+            if key in str_dict:
+                str_dict[key].append(s)
             else:
-                dic_str[key] = [s]
-        return list(dic_str.values())
+                str_dict[key] = [s]
+        return list(str_dict.values())
