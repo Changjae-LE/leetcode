@@ -47,3 +47,37 @@ class Solution:
             self.isSameTree(p.right, q.right)
         
         return p is q
+    
+# 102. Binary Tree Level Order Traversal (Medium)
+
+class Solution:
+    def levelOrder(self, root):
+
+        if not root:
+            return []
+        
+        rst = []
+        level = [root]
+        while level:
+            rst.append([node.val for node in level])
+            pair = [(node.left, node.right) for node in level]
+            level = [n for node in pair for n in node if n]
+        return rst
+    
+
+        #if not root:
+        #    return []
+        #rst = []
+        #level = [root]
+
+        #while level:
+        #    rst.append([node.val for node in level])
+        #    pair = [(node.left, node.right) for node in level]
+        #    next_level = []
+        #    for left, right in pair:
+        #        if left:
+        #            next_level.append(left)
+        #        if right:
+        #            next_level.append(right)
+        #    level = next_level
+        #return rst
