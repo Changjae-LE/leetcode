@@ -81,3 +81,37 @@ class Solution:
         #            next_level.append(right)
         #    level = next_level
         #return rst
+
+# 106. Construct Binary Tree from Inorder and Postorder Traversal
+
+class Solution:
+    def buildTree(self, inorder, postorder):
+        #if inorder:
+        #    idx = inorder.index(postorder.pop())
+        #    root = TreeNode(inorder[idx])
+        #    root.right = self.buildTree(inorder[idx+1:], postorder) ## right first!!!
+        #    root.left = self.buildTree(inorder[:idx], postorder)
+        #    return root
+
+
+
+        idx = {v: i for i, v in enumerate(inorder)}
+        post_i = len(postorder) - 1
+
+        def helper(l, r):
+            nonlocal post_i
+            if l > r:
+                return None
+
+            root_val = postorder[post_i]
+            post_i -= 1
+            root = TreeNode(root_val)
+
+            mid = idx[root_val]
+
+            root.right = helper(mid + 1, r)
+            root.left = helper(l, mid - 1)
+
+            return root
+
+        return helper(0, len(inorder) - 1)
