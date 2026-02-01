@@ -115,3 +115,18 @@ class Solution:
             return root
 
         return helper(0, len(inorder) - 1)
+    
+# 112. Path Sum (Easy)
+
+class Solution:
+    def hasPathSum(self, root, targetSum):
+        if not root:
+            return False
+        
+        if not root.left and not root.right:
+            return targetSum == root.val
+
+        right = self.hasPathSum(root.right, targetSum - root.val)
+        left = self.hasPathSum(root.left, targetSum - root.val)
+
+        return left or right
