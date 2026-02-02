@@ -130,3 +130,17 @@ class Solution:
         left = self.hasPathSum(root.left, targetSum - root.val)
 
         return left or right
+
+# 226. Invert Binary Tree (Easy)
+
+class Solution:
+    def invertTree(self, root):
+
+        if not root:
+            return
+
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+
+        root.left, root.right = root.right, root.left
+        return root
