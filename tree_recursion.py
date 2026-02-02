@@ -138,7 +138,7 @@ class Solution:
 
         if not root:
             return
-
+        #postorder
         self.invertTree(root.left)
         self.invertTree(root.right)
 
