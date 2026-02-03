@@ -144,3 +144,22 @@ class Solution:
 
         root.left, root.right = root.right, root.left
         return root
+    
+# 572. Subtree of Another Tree (Easy)
+
+class Solution:
+    def isSubtree(self, root, subRoot):
+        if not root:
+            return False
+
+        if self.isSameTree(root, subRoot):
+            return True
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
+        
+        
+    def isSameTree(self, p, q):
+        if p and q:
+            return p.val == q.val and\
+            self.isSameTree(p.right, q.right) and\
+            self.isSameTree(p.left, q.left)
+        return p is q
