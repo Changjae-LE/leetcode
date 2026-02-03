@@ -149,17 +149,13 @@ class Solution:
 
 class Solution:
     def isSubtree(self, root, subRoot):
+
         if not root:
             return False
+        return self.isSametree(root, subRoot) or self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
 
-        if self.isSameTree(root, subRoot):
-            return True
-        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
-        
-        
-    def isSameTree(self, p, q):
-        if p and q:
-            return p.val == q.val and\
-            self.isSameTree(p.right, q.right) and\
-            self.isSameTree(p.left, q.left)
-        return p is q
+
+    def isSametree(self, root, subRoot):
+        if root and subRoot:
+            return root.val == subRoot.val and self.isSametree(root.right, subRoot.right) and self.isSametree(root.left, subRoot.left)
+        return root is subRoot
