@@ -159,3 +159,25 @@ class Solution:
         if root and subRoot:
             return root.val == subRoot.val and self.isSametree(root.right, subRoot.right) and self.isSametree(root.left, subRoot.left)
         return root is subRoot
+    
+#  98. Validate Binary Search Tree (Medium)
+
+    #Inorder traversal of a BST is strictly increasing.
+class Solution(object):
+    def isValidBST(self, root):
+        
+        rst = []
+        self.inOrder(root, rst)
+        
+        for i in range(1, len(rst)):
+            if rst[i-1] >= rst[i]:
+                return False
+                
+        return True
+
+    def inOrder(self, root, rst):
+        if not root:
+            return
+        self.inOrder(root.left, rst)
+        rst.append(root.val)
+        self.inOrder(root.right, rst)
