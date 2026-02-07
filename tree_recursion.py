@@ -82,7 +82,7 @@ class Solution:
         #    level = next_level
         #return rst
 
-# 106. Construct Binary Tree from Inorder and Postorder Traversal
+# 106. Construct Binary Tree from Inorder and Postorder Traversal (Medium)
 
 class Solution:
     def buildTree(self, inorder, postorder):
