@@ -36,3 +36,30 @@ class Solution(object):
                     cnt += 1
 
         return cnt
+
+# 994. Rotting Oranges (Medium)
+
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+
+        fresh = set()
+        rotten = []
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    fresh.add((i, j))
+                elif grid[i][j] == 2:
+                    rotten.append((i, j))
+
+        cnt = 0
+        while fresh and rotten:
+            for _ in range(len(rotten)):
+                i, j = rotten.pop(0)
+                for xy in ((i+1, j), (i-1, j), (i, j-1), (i, j+1)):
+                    if xy in fresh:
+                        fresh.remove(xy)
+                        rotten.append(xy)
+            cnt += 1
+
+        return -1 if fresh else cnt
