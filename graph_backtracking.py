@@ -63,3 +63,27 @@ class Solution:
             cnt += 1
 
         return -1 if fresh else cnt
+    
+# 133. Clone Graph (Medium)
+
+class Solution:
+    def cloneGraph(self, node):
+
+        if not node:
+            return None
+        
+        clones = {}
+
+        def dfs(cur):
+
+            if cur in clones:
+                return clones[cur]
+
+            cloned = Node(cur.val)
+            clones[cur] = cloned
+            for nxt in cur.neighbors:
+                cloned.neighbors.append(dfs(nxt))
+            return cloned
+
+        return dfs(node)
+
