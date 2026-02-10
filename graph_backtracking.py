@@ -87,3 +87,42 @@ class Solution:
 
         return dfs(node)
 
+# 207. Course Schedule (Medium)
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)] # [[], []]
+        visit = [0 for _ in range(numCourses)] # [0, 0]
+
+        # create graph
+        for x, y in prerequisites:
+            graph[x].append(y)
+
+        # visit each node
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visit): 
+                return False
+        
+        return True
+
+    def dfs(self, i, graph, visit):
+
+        # if the node is marked as being visited
+        if visit[i] == -1:
+            return False
+
+        # if it's done visited
+        if visit[i] == 1:
+            return True
+
+        # mark as visit
+        visit[i] = -1
+
+        # visit all the neighbors
+        for j in graph[i]:
+            if not self.dfs(j, graph, visit):
+                return False
+        
+        # after visit all the neighbors, mark it as done
+        visit[i] = 1
+        return True
