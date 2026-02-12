@@ -132,3 +132,21 @@ class Solution:
 # ========================================================    
 
 # 46. Permutations (Medium)
+class Solution:
+    def permute(self, nums):
+        rst = []
+        
+        def backtrack(path):
+            if len(path) == len(nums):
+                rst.append(path[:])
+                return
+            
+            for n in nums:
+                if n in path:
+                    continue
+                path.append(n)
+                backtrack(path)
+                path.pop()
+        
+        backtrack([])
+        return rst
