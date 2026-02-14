@@ -128,25 +128,50 @@ class Solution:
         return True
 
 # ========================================================
-# Backtracking : 5 questions
+# Backtracking : 6 questions
 # ========================================================    
 
 # 46. Permutations (Medium)
 class Solution:
     def permute(self, nums):
+        
         rst = []
-        
-        def backtrack(path):
-            if len(path) == len(nums):
-                rst.append(path[:])
-                return
-            
-            for n in nums:
-                if n in path:
-                    continue
-                path.append(n)
-                backtrack(path)
-                path.pop()
-        
-        backtrack([])
+        self.backtrack(nums, [], rst)
         return rst
+        
+    def backtrack(self, nums, path, rst):
+        if len(path) == len(nums):
+            rst.append(path[:])
+            return
+            
+        for n in nums:
+            if n in path:
+                continue
+            path.append(n)
+            self.backtrack(nums, path, rst)
+            path.pop()
+    
+
+# ======================================================================
+# 47. Permutations II
+# ======================================================================
+
+class Solution(object):
+    def permuteUnique(self, nums):
+
+        rst = []
+        nums.sort()
+        self.dfs(nums, [], rst)
+        return rst
+
+    def dfs(self, nums, path, rst):
+        if not nums:
+            rst.append(path)
+            return
+
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            self.dfs(nums[:i]+nums[i+1:], path+[nums[i]], rst)
+
+            #interview preparation
