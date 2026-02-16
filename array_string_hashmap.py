@@ -4,7 +4,8 @@
 - Hashmap
 
 """
-
+#from collections import Counter, defaultdict
+#import re
 
 # ========================================================
 # Array : 5 questions
@@ -101,7 +102,7 @@ class Solution:
         return -1
 
 # ========================================================
-# String : 2 questions
+# String : 4 questions
 # ========================================================
 
 # 125. Valid Palindrome (Easy)
@@ -144,6 +145,42 @@ class Solution:
             result = max(result, r - l + 1)
 
         return result
+    
+# 242. Valid Anagram (Easy)
+
+class Solution(object):
+  def isAnagram(self, s, t):
+
+#        if len(s) != len(t):
+#            return False
+
+#        for char in set(s):
+#            if s.count(char) != t.count(char):
+#                return False
+#        return True
+
+    return Counter(s) == Counter(t)
+  
+
+# 20. Valid Parentheses (Easy)
+
+class Solution(object):
+    def isValid(self, s):
+        
+        stack = []
+
+        for c in s:
+            if c in "{[(":
+                stack.append(c)
+            else:
+                if not stack\
+                or c == ")" and stack[-1] != "("\
+                or c == "}" and stack[-1] != "{"\
+                or c == "]" and stack[-1] != "[":
+                    return False
+                stack.pop()
+
+        return not stack
 
 # ========================================================
 # Hashmap : 3 questions
@@ -223,6 +260,3 @@ class Solution:
             else:
                 str_dict[key] = [s]
         return list(str_dict.values())
-
-
-
