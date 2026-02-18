@@ -12,6 +12,7 @@
 # ========================================================
 
 # 1. Two Sum (Easy)
+# Time Complexity: O(nlogn)
 
 class Solution:
     def twoSum(self, nums, target):
@@ -28,8 +29,9 @@ class Solution:
                 l += 1
             else:
                 return [arr[l][1], arr[r][1]]
-            
+
 # 26. Remove Duplicates from Sorted Array (Easy)
+# Time Complexity: O(n)
 
 class Solution:
     def removeDuplicates(self, nums):
@@ -43,7 +45,7 @@ class Solution:
         return count
 
 # 121. Best Time to Buy and Sell Stock (Easy)
-
+# Time Complexity: O(n)
 class Solution:
     def maxProfit(self, nums):
         
@@ -82,7 +84,7 @@ class Solution:
         return window_min
 
 # 387. First Unique Character in a String (Easy)
-
+# Time Complexity: O(n)
 class Solution:
     def firstUniqChar(self, s):
         #c_dict = defaultdict(int)
@@ -100,12 +102,86 @@ class Solution:
             if cnt[c] == 1:
                 return i
         return -1
+    
+# 217. Contains Duplicate (Easy)
+
+class Solution(object):
+    def containsDuplicate(self, nums):
+        return len(set(nums)) != len(nums)
+    
+# 238. Product of Array Except Self (Medium)
+
+class Solution:
+    def productExceptSelf(self, nums):
+
+        n = len(nums)
+        rst = [1] * n
+
+        for i in range(1, len(nums)):
+            rst[i] *= rst[i-1] * nums[i-1]
+        
+        suffix = 1
+        for i in range(n-1, -1, -1):
+            rst[i] *= suffix
+            suffix *= nums[i]
+
+        return rst
+
+# 53. Maximum Subarray (Medium)
+
+class Solution:
+    def maxSubArray(self, nums):
+        cur = max_v = nums[0]
+        for num in nums[1:]:
+            cur = max(num, cur+num)
+            max_v = max(cur, max_v)
+        return max_v
+
+
+# 152. Maximum Product Subarray (Medium)
+
+class Solution:
+    def maxProduct(self, nums):
+
+        cur_max = cur_min = max_val = nums[0]
+        for num in nums[1:]:
+            if num < 0:
+                cur_max, cur_min = cur_min, cur_max
+
+            cur_max = max(num, cur_max * num)
+            cur_min = min(num, cur_min * num)
+
+            max_val = max(max_val, cur_max)
+        return max_val
+
+# 153. Find Minimum in Rotated Sorted Array (Medium)
+
+class Solution:
+    def findMin(self, nums):
+        
+        left = 0
+        right = len(nums) - 1
+
+        while left < right:
+            mid = (right + left)//2
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid
+
+        return nums[left]
+
+
+# 33. Search in Rotated Sorted Array (Medium)
+# 15. 3Sum (Medium)
+# 11. Container With Most Water (Medium)
 
 # ========================================================
 # String : 4 questions
 # ========================================================
 
 # 125. Valid Palindrome (Easy)
+# Time Complexity: O(n)
 
 class Solution:
     def isPalindrome(self, s):
@@ -123,6 +199,7 @@ class Solution:
         return s == s[::-1]
 
 # 424. Longest Repeating Character Replacement (Medium)
+# Time Complexity: O(n)
 
 class Solution:
     def characterReplacement(self, s, k):
@@ -147,6 +224,7 @@ class Solution:
         return result
     
 # 242. Valid Anagram (Easy)
+# Time Complexity: O(n)
 
 class Solution(object):
   def isAnagram(self, s, t):
@@ -163,30 +241,31 @@ class Solution(object):
   
 
 # 20. Valid Parentheses (Easy)
+# Time Complexity: O(n)
 
 class Solution(object):
     def isValid(self, s):
-        
-        stack = []
+
+        stk = []
 
         for c in s:
-            if c in "{[(":
-                stack.append(c)
+            if c in "{([":
+                stk.append(c)
             else:
-                if not stack\
-                or c == ")" and stack[-1] != "("\
-                or c == "}" and stack[-1] != "{"\
-                or c == "]" and stack[-1] != "[":
+                if not stk\
+                or stk[-1] == '{' and c != '}' \
+                or stk[-1] == '[' and c != ']' \
+                or stk[-1] == '(' and c != ')':
                     return False
-                stack.pop()
-
-        return not stack
+                stk.pop()
+        return not stk
 
 # ========================================================
 # Hashmap : 3 questions
 # ========================================================
 
 # 347. Top K Frequent Elements (Medium)
+# Time Complexity: O(nlogn)
 
 class Solution:
     def topKFrequent(self, nums, k):
@@ -218,6 +297,7 @@ class Solution:
         return [n[0] for n in freq][:k]
 
 # 560. Subarray Sum Equals K (Medium)
+# Time Complexity: O(n)
 
 class Solution:
     def subarraySum(slef, nums, k):
@@ -249,6 +329,7 @@ class Solution:
         return count
 
 # 49. Group Anagrams (Medium)
+# Time Complexity: O(n·mlogm)
 
 class Solution:
     def groupAnagrams(self, strs):
@@ -260,3 +341,58 @@ class Solution:
             else:
                 str_dict[key] = [s]
         return list(str_dict.values())
+    
+# ========================================================
+# Linked List : 6 questions
+# ========================================================
+
+# 206. Reverse Linked List (Easy)
+
+class Solution(object):
+    def reverseList(self, head):
+
+        prev = None
+        while head:
+            next_p = head.next
+            head.next = prev
+            prev = head
+            head = next_p
+
+        return prev
+
+
+# 141. Linked List Cycle (Easy)
+
+class Solution:
+    def hasCycle(self, head):
+
+        try:
+            t = head
+            r = head.next
+            while t is not r:
+                t = t.next
+                r = r.next.next
+            return True
+
+        except:
+            return False
+
+# 21. Merge Two Sorted Lists (Easy)
+
+class Solution(object):
+    def mergeTwoLists(self, list1, list2):
+        
+        head = dummy = ListNode(-1)
+
+        while list1 and list2:
+            if list1.val <= list2.val:
+                dummy.next = list1
+                list1 = list1.next
+            else:
+                dummy.next = list2
+                list2 = list2.next
+            dummy = dummy.next
+
+        dummy.next = list1 if list1 else list2
+
+        return head.next
