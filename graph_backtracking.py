@@ -151,10 +151,7 @@ class Solution:
             self.backtrack(nums, path, rst)
             path.pop()
     
-
-# ======================================================================
-# 47. Permutations II
-# ======================================================================
+# 47. Permutations II (Medium)
 
 class Solution(object):
     def permuteUnique(self, nums):
@@ -175,3 +172,141 @@ class Solution(object):
             self.dfs(nums[:i]+nums[i+1:], path+[nums[i]], rst)
 
             #interview preparation
+
+
+# 257. Binary Tree Paths (Easy)
+class Solution:
+    def binaryTreePaths(self, root):
+        rst = []
+        self.dfs(root, rst, "")
+        return rst
+
+
+    def dfs(self, node, rst, path):
+
+        if not node:
+            return
+
+        if path == "":
+            cur = str(node.val)
+        else:
+            cur = path + "->" + str(node.val)
+
+        if not node.right and not node.left:
+            rst.append(cur)
+            return
+
+        if node.right:
+            self.dfs(node.right, rst, cur)
+        if node.left:
+            self.dfs(node.left, rst, cur)
+
+# 78. Subsets (Medium)
+
+class Solution:
+    def subsets(self, nums):
+
+        rst = []
+        self.dfs(nums, rst, 0, [])
+        return rst
+
+    def dfs(self, nums, rst, idx, path):
+
+        if len(nums) == idx:
+            rst.append(path[:])
+            return
+
+        path.append(nums[idx])
+        self.dfs(nums, rst, idx+1, path)
+
+        path.pop()
+        self.dfs(nums, rst, idx+1, path)
+
+# 17. Letter Combinations of a phone number (Medium)
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        
+
+        dic = {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}
+        rst = []
+        self.dfs(digits, "", rst, 0, dic)
+        return rst
+
+    def dfs(self, digits, path, rst, idx, dic):
+        if idx == len(digits):
+            rst.append(path)
+            return
+
+        string = dic[digits[idx]]
+        for ch in string:
+            self.dfs(digits, path + ch, rst, idx + 1, dic)
+
+# 39. Combination Sum (Medium)
+
+class Solution:
+    def combinationSum(self, candidates, target):
+        
+        candidates.sort()
+        rst = []
+        self.dfs(candidates, target, 0, [], rst)
+        return rst
+
+    def dfs(self, candidates, target, idx, path, rst):
+        if target < 0:
+            return
+
+        if target == 0:
+            rst.append(path) #new array
+            return
+
+        for i in range(idx, len(candidates)):
+            self.dfs(candidates, target - candidates[i], i, path + [candidates[i]], rst)
+
+
+# 40. Combination Sum II (Medium)
+class Solution:
+    def combinationSum2(self, candidates, target):
+        candidates.sort()
+        rst = []
+        self.dfs(candidates, target, 0, [], rst)
+        return rst
+
+    def dfs(self, candidates, target, idx, path, rst):
+        if target < 0:
+            return
+
+        if target == 0:
+            rst.append(path) #new array
+            return
+
+        for i in range(idx, len(candidates)):
+            if i > idx and candidates[i] == candidates[i - 1]:
+                continue
+            self.dfs(candidates, target - candidates[i], i + 1, path + [candidates[i]], rst)
+
+# 79. Word Search (Medium)
+class Solution:
+    def exist(self, board, word):
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if self.dfs(board, word, i, j, 0):
+                    return True
+        return False
+
+    def dfs(self, board, word, i, j, idx):
+        if i < 0 or i == len(board) or j < 0 or j == len(board[0]):
+            return False
+        if board[i][j] != word[idx] or board[i][j] == '*':
+            return False
+        if idx == len(word) - 1:
+            return True
+        
+        cache = board[i][j]
+        board[i][j] = '*'
+        rst = self.dfs(board, word, i+1, j, idx+1) or \
+            self.dfs(board, word, i-1, j, idx+1) or \
+            self.dfs(board, word, i, j+1, idx+1) or \
+            self.dfs(board, word, i, j-1, idx+1)
+        board[i][j] = cache
+        return rst
