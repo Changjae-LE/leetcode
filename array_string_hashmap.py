@@ -118,7 +118,7 @@ class Solution:
         rst = [1] * n
 
         for i in range(1, len(nums)):
-            rst[i] *= rst[i-1] * nums[i-1]
+            rst[i] = rst[i-1] * nums[i-1]
         
         suffix = 1
         for i in range(n-1, -1, -1):
@@ -143,16 +143,17 @@ class Solution:
 class Solution:
     def maxProduct(self, nums):
 
-        cur_max = cur_min = max_val = nums[0]
-        for num in nums[1:]:
-            if num < 0:
+        cur_max = nums[0]
+        cur_min = nums[0]
+        best = nums[0]
+
+        for i in range(1, len(nums)):
+            if nums[i] < 0:
                 cur_max, cur_min = cur_min, cur_max
-
-            cur_max = max(num, cur_max * num)
-            cur_min = min(num, cur_min * num)
-
-            max_val = max(max_val, cur_max)
-        return max_val
+            cur_max = max(cur_max * nums[i], nums[i])
+            cur_min = min(cur_min * nums[i], nums[i])
+            best = max(best, cur_max)
+        return best
 
 # 153. Find Minimum in Rotated Sorted Array (Medium)
 
@@ -165,7 +166,7 @@ class Solution:
         while left < right:#정렬이 되어 있는 곳을 버림
             mid = (right + left)//2
             if nums[mid] > nums[right]:
-                left = mid + 1
+                left = mid + 1#nums[mid] cannot be the min value
             else:
                 right = mid
 
@@ -240,6 +241,23 @@ class Solution:
         return res
 
 # 11. Container With Most Water (Medium)
+
+class Solution:
+    def maxArea(self, height):
+
+        right = len(height) - 1
+        left = 0
+        best = 0
+        while left < right:
+            width = right - left
+            vol = min(height[right], height[left]) * width
+            best = max(vol, best)
+            if height[right] <= height[left]:
+                right -= 1
+            else:
+                left += 1
+
+        return best
 
 # ========================================================
 # String : 4 questions
@@ -413,6 +431,14 @@ class Solution:
 class Solution:
     def mostCommonWord(self, paragraph, banned):
         #banned = set(w.lower() for w in banned)
+
+        #words = re.findall("[a-z]+", paragraph.lower())
+        #words = [word for word in words if word not in banned]
+        #words_dict = Counter(words)
+        #freq = [(v, i) for i, v in words_dict.items()]
+        #freq.sort()
+        #return freq[-1][1]
+        
         words = re.findall("[a-z]+", paragraph.lower())
         counts = Counter(word for word in words if word not in banned)
         return counts.most_common(1)[0][0]
