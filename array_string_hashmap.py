@@ -162,7 +162,7 @@ class Solution:
         left = 0
         right = len(nums) - 1
 
-        while left < right:
+        while left < right:#정렬이 되어 있는 곳을 버림
             mid = (right + left)//2
             if nums[mid] > nums[right]:
                 left = mid + 1
@@ -173,7 +173,72 @@ class Solution:
 
 
 # 33. Search in Rotated Sorted Array (Medium)
+
+class Solution(object):
+    def search(self, nums, target):
+
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if nums[mid] == target:
+                return mid
+
+            if nums[mid] < nums[right]:
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            else:
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+
+        return -1
+    
 # 15. 3Sum (Medium)
+class Solution:
+    def threeSum(self, nums):
+        nums.sort()
+        res = []
+        n = len(nums)
+
+        for i in range(n - 2):
+            # i 중복 제거
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+
+            # 정렬되어 있으니 nums[i] > 0이면 이후는 전부 >0 => 합 0 불가
+            if nums[i] > 0:
+                break
+
+            left, right = i + 1, n - 1
+
+            while left < right:
+                s = nums[i] + nums[left] + nums[right]
+
+                if s == 0:
+                    res.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    right -= 1
+
+                    # left 중복 제거
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+                    # right 중복 제거
+                    while left < right and nums[right] == nums[right + 1]:
+                        right -= 1
+
+                elif s < 0:
+                    left += 1
+                else:
+                    right -= 1
+
+        return res
+
 # 11. Container With Most Water (Medium)
 
 # ========================================================
@@ -341,7 +406,18 @@ class Solution:
             else:
                 str_dict[key] = [s]
         return list(str_dict.values())
-    
+
+# 819. Most Common Word (Medium)
+# Time Complexity: O(n)
+
+class Solution:
+    def mostCommonWord(self, paragraph, banned):
+        #banned = set(w.lower() for w in banned)
+        words = re.findall("[a-z]+", paragraph.lower())
+        counts = Counter(word for word in words if word not in banned)
+        return counts.most_common(1)[0][0]
+
+
 # ========================================================
 # Linked List : 6 questions
 # ========================================================
