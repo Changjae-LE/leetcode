@@ -13,6 +13,18 @@
 
 # 1. Two Sum (Easy)
 # Time Complexity: O(nlogn)
+# Space Complexity: O(n)
+
+
+# Pseudo code
+# arr <- (value, index) pairs in nums
+# arr.sort()
+# right = len(nums) - 1, left = 0
+# while left < right:
+#   if sum of left and right == target: return original indices
+#   if sum > target: right -= 1
+#   if sum < target: left += 1
+
 
 class Solution:
     def twoSum(self, nums, target):
@@ -32,7 +44,13 @@ class Solution:
 
 # 26. Remove Duplicates from Sorted Array (Easy)
 # Time Complexity: O(n)
+# Space Complexity: O(1)
 
+# Pseudo code
+# cnt = 1
+# for from 1 to len(nums):
+#   if nums[i] != nums[i-1]: nums[count] = nums[i], cnt += 1
+# return cnt
 class Solution:
     def removeDuplicates(self, nums):
         
@@ -46,13 +64,20 @@ class Solution:
 
 # 121. Best Time to Buy and Sell Stock (Easy)
 # Time Complexity: O(n)
+
+# Pseudo Code
+#for price in prices:
+#   if price is low: update min_price
+#   else price is high: Update max_profit(price - min_price)
+#if min_price == original value: return 0
+#return max_profit
 class Solution:
-    def maxProfit(self, nums):
+    def maxProfit(self, prices):
         
         min_price = 10000
         max_profit = 0
 
-        for price in nums:
+        for price in prices:
             if price < min_price:
                 min_price = price
             else:
@@ -85,6 +110,14 @@ class Solution:
 
 # 387. First Unique Character in a String (Easy)
 # Time Complexity: O(n)
+# Space Complexity: O(n)
+
+# Pseudo Code
+# freq ← empty map
+# for c in s: count frequency
+# for from 0 to len(s): to find non-repeating character
+#   if dic[s[i]] == 1: return i
+
 class Solution:
     def firstUniqChar(self, s):
         #c_dict = defaultdict(int)
@@ -103,8 +136,20 @@ class Solution:
                 return i
         return -1
     
-# 217. Contains Duplicate (Easy)
+        #cnt = Counter(s)
+        #for i in range(len(s)):
+        #    if cnt[s[i]] == 1:
+        #        return i
 
+        #return -1
+
+    
+# 217. Contains Duplicate (Easy)
+# Time Complexity: O(n)
+# Space Complexity: O(n)
+
+# convert nums to a set
+# compare the size of array with set(array)
 class Solution(object):
     def containsDuplicate(self, nums):
         return len(set(nums)) != len(nums)
@@ -265,7 +310,11 @@ class Solution:
 
 # 125. Valid Palindrome (Easy)
 # Time Complexity: O(n)
+# Space Complexity: O(n)
 
+# s <- lowercase
+# s <- remove special characters and empty space from s
+# return s == s[::-1]
 class Solution:
     def isPalindrome(self, s):
         
@@ -286,28 +335,31 @@ class Solution:
 
 class Solution:
     def characterReplacement(self, s, k):
-        freq = {}
-        l = 0
+
+        freq = defaultdict(int)
         max_freq = 0
-        result = 0
+        left = 0
+        max_len = 0
 
-        for r in range(len(s)):
-            c = s[r]
-            freq[c] = freq.get(c, 0) + 1
+        for right in range(len(s)):
+            freq[s[right]] += 1
+            max_freq = max(max_freq, freq[s[right]])
 
-            max_freq = max(max_freq, freq[c])
+            while (right - left + 1) - max_freq > k:
+                freq[s[left]] -= 1
+                left += 1
 
-            while (r - l + 1) - max_freq > k:
-                left_c = s[l]
-                freq[left_c] -= 1
-                l += 1
+            max_len = max(max_len, right - left + 1)
 
-            result = max(result, r - l + 1)
-
-        return result
+        return max_len
     
 # 242. Valid Anagram (Easy)
 # Time Complexity: O(n)
+# Space Complexity: O(n)
+
+# freq1 <- frequency map of s
+# freq2 <- frequency map of t
+# return freq1 == freq2
 
 class Solution(object):
   def isAnagram(self, s, t):
@@ -325,6 +377,19 @@ class Solution(object):
 
 # 20. Valid Parentheses (Easy)
 # Time Complexity: O(n)
+# Space Complexity: O(n)
+
+# stack <- empty list
+# for each character c in s:
+#       if c is one of "({[":
+#           push c onto stack 
+#       else:
+#           if stack is empty:
+#               return False
+#           if Top of the stack does not match c:
+#               return False
+#           pop from stack
+# return stack is empty
 
 class Solution(object):
     def isValid(self, s):
@@ -342,6 +407,77 @@ class Solution(object):
                     return False
                 stk.pop()
         return not stk
+
+# 3. Longest Substring Without Repeating Characters (Medium)
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+
+        max_len = 0
+        idx = {}
+
+        left = 0
+        for right in range(len(s)):
+            if s[right] in idx:
+                left = max(left, idx[s[right]])
+            max_len = max(max_len, right-left+1)
+            idx[s[right]] = right+1
+
+        return max_len
+    
+# 647. Palindromic Substrings (Medium)
+# Time Complexity: O(n^2)
+# Space Complexity: O(1)
+
+class Solution:
+    def countSubstrings(self, s):
+        n = len(s)
+        cnt = 0
+        for i in range(len(s)):
+            cnt += self.expend(s, i, i)#odd
+            cnt += self.expend(s, i, i+1)#even
+        return cnt
+
+    def expend(self, s, left, right):
+        cnt = 0
+        while 0 <= left and right < len(s) and s[left] == s[right]:
+            cnt += 1
+            left -=1
+            right +=1
+        return cnt
+
+# 5. Longest Palindromic Substring
+# Time Complexity: O(n^2)
+# Space Complexity: O(1)
+
+class Solution:
+    def longestPalindrome(self, s):
+        n = len(s)
+        if n <= 1:
+            return s
+
+        best_l, best_r = 0, 0
+
+        for i in range(n):
+            # odd
+            l1, r1 = self.expand(s, i, i)
+            if r1 - l1 > best_r - best_l:
+                best_l, best_r = l1, r1
+
+            # even
+            l2, r2 = self.expand(s, i, i + 1)
+            if r2 - l2 > best_r - best_l:
+                best_l, best_r = l2, r2
+
+        return s[best_l:best_r + 1]
+
+    def expand(self, s, l, r):
+        n = len(s)
+        while l >= 0 and r < n and s[l] == s[r]:
+            l -= 1
+            r += 1
+
+        return l + 1, r - 1
+
 
 # ========================================================
 # Hashmap : 3 questions
@@ -443,12 +579,49 @@ class Solution:
         counts = Counter(word for word in words if word not in banned)
         return counts.most_common(1)[0][0]
 
+# 438. Find All Anagrams in a String
+
+class Solution:
+    def findAnagrams(self, s, p):
+        
+        n = len(s)
+        m = len(p)
+
+        
+        window = Counter(s[:m])
+        need= Counter(p)
+        rst = []
+
+        if window == need:
+            rst.append(0)
+
+        for right in range(m, n):
+            window[s[right]] += 1
+            window[s[right-m]] -= 1
+            if window[s[right-m]] == 0:
+                del window[s[right-m]]
+
+            if window == need:
+                rst.append(right - m + 1)
+        return rst
+
 
 # ========================================================
 # Linked List : 6 questions
 # ========================================================
 
 # 206. Reverse Linked List (Easy)
+#Time Complexity = O(n)
+#Space Complexity = O(1)
+
+#prev ← null
+#while head is not null:
+
+#    next ← head.next
+#    head.next ← prev
+#    prev ← head
+#    head ← next
+#return prev
 
 class Solution(object):
     def reverseList(self, head):
