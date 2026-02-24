@@ -13,28 +13,27 @@
 class Solution(object):
     def numIslands(self, grid):
         
-        if not grid: return 0
+        raws = len(grid)
+        cols = len(grid[0])
+        count = 0
 
-        rows, cols = len(grid), len(grid[0])
+        for i in range(raws):
+            for j in range(cols):
+                if grid[i][j] == '1':
+                    grid = self.dfs(grid, i, j)
+                    count += 1
+        return count
 
-        def dfs(row, col):
-            if row < 0 or col < 0 or row >= rows or col >= cols or grid[row][col] != '1':
-                return
-            
-            grid[row][col] = '0'
-            dfs(row-1, col)
-            dfs(row+1, col)
-            dfs(row, col-1)
-            dfs(row, col+1)
-
-        cnt = 0
-        for row in range(rows):
-            for col in range(cols):
-                if grid[row][col] == '1':
-                    dfs(row, col)
-                    cnt += 1
-
-        return cnt
+    def dfs(self, grid, i, j):
+        if i >= len(grid) or i < 0 or j >= len(grid[0]) or j < 0 or grid[i][j] == '0':
+            return
+        else:
+            grid[i][j] = '0'
+            self.dfs(grid, i+1, j)
+            self.dfs(grid, i-1, j)
+            self.dfs(grid, i, j+1)
+            self.dfs(grid, i, j-1)
+        return grid
 
 # 994. Rotting Oranges (Medium)
 
@@ -127,6 +126,8 @@ class Solution:
         visited[i] = 1
         return True
 
+# 1971. Find if Path Exists in Graph
+
 # ========================================================
 # Backtracking : 6 questions
 # ========================================================    
@@ -134,22 +135,41 @@ class Solution:
 # 46. Permutations (Medium)
 class Solution:
     def permute(self, nums):
+
+
+    #    rst = [] 
+    #    self.backtrack(nums, [], rst) 
+    #    return rst 
+        
+    #def backtrack(self, nums, path, rst): 
+        
+    #    if len(path) == len(nums): 
+    #        rst.append(path[:]) 
+    #        return 
+            
+    #    for n in nums: 
+    #        if n in path: 
+    #            continue 
+    #        path.append(n) 
+    #        self.backtrack(nums, path, rst) 
+    #        path.pop()
         
         rst = []
-        self.backtrack(nums, [], rst)
+        self.dfs(nums, rst, [])
         return rst
-        
-    def backtrack(self, nums, path, rst):
-        if len(path) == len(nums):
-            rst.append(path[:])
+
+    def dfs(self, nums, rst, path):
+        if len(nums) == len(path):
+            rst.append(path)
             return
-            
-        for n in nums:
-            if n in path:
-                continue
-            path.append(n)
-            self.backtrack(nums, path, rst)
-            path.pop()
+
+        for i in range(len(nums)):
+            if nums[i] not in path:
+                self.dfs(nums, rst, path + [nums[i]])
+    
+
+
+
     
 # 47. Permutations II (Medium)
 
@@ -167,11 +187,9 @@ class Solution(object):
             return
 
         for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i-1]:
+            if i != 0 and nums[i] == nums[i-1]:
                 continue
             self.dfs(nums[:i]+nums[i+1:], path+[nums[i]], rst)
-
-            #interview preparation
 
 
 # 257. Binary Tree Paths (Easy)
@@ -207,20 +225,21 @@ class Solution:
     def subsets(self, nums):
 
         rst = []
-        self.dfs(nums, rst, 0, [])
+        self.dfs(nums, rst, [], 0)
         return rst
 
-    def dfs(self, nums, rst, idx, path):
 
-        if len(nums) == idx:
+    def dfs(self, nums, rst, path, idx):
+        if idx == len(nums):
             rst.append(path[:])
             return
 
+
         path.append(nums[idx])
-        self.dfs(nums, rst, idx+1, path)
+        self.dfs(nums, rst, path, idx+1)
 
         path.pop()
-        self.dfs(nums, rst, idx+1, path)
+        self.dfs(nums, rst, path, idx+1)
 
 # 17. Letter Combinations of a phone number (Medium)
 
@@ -249,19 +268,19 @@ class Solution:
         
         candidates.sort()
         rst = []
-        self.dfs(candidates, target, 0, [], rst)
+        self.dfs(candidates, target, rst, 0, [])
         return rst
 
-    def dfs(self, candidates, target, idx, path, rst):
+
+    def dfs(self, candidates, target, rst, idx, path):
         if target < 0:
             return
 
         if target == 0:
-            rst.append(path) #new array
-            return
+            rst.append(path[:])
 
         for i in range(idx, len(candidates)):
-            self.dfs(candidates, target - candidates[i], i, path + [candidates[i]], rst)
+            self.dfs(candidates, target-candidates[i], rst, i, path + [candidates[i]])
 
 
 # 40. Combination Sum II (Medium)
@@ -288,25 +307,30 @@ class Solution:
 # 79. Word Search (Medium)
 class Solution:
     def exist(self, board, word):
-        for i in range(len(board)):
+        
+        for i in range(len((board))):
             for j in range(len(board[0])):
                 if self.dfs(board, word, i, j, 0):
                     return True
         return False
 
     def dfs(self, board, word, i, j, idx):
-        if i < 0 or i == len(board) or j < 0 or j == len(board[0]):
+
+        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
             return False
-        if board[i][j] != word[idx] or board[i][j] == '*':
+        
+        if board[i][j] == '*' or board[i][j] != word[idx]:
             return False
+        
         if idx == len(word) - 1:
             return True
-        
+
         cache = board[i][j]
         board[i][j] = '*'
-        rst = self.dfs(board, word, i+1, j, idx+1) or \
-            self.dfs(board, word, i-1, j, idx+1) or \
-            self.dfs(board, word, i, j+1, idx+1) or \
-            self.dfs(board, word, i, j-1, idx+1)
+        rst = self.dfs(board, word, i-1, j, idx+1) or \
+        self.dfs(board, word, i+1, j, idx+1) or \
+        self.dfs(board, word, i, j+1, idx+1) or \
+        self.dfs(board, word, i, j-1, idx+1)
+
         board[i][j] = cache
         return rst
