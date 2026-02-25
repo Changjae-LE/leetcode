@@ -11,7 +11,18 @@
 
 # 94. Binary Tree Inorder Traversal (Easy)
 
+#Time Complexity = O(n)
+#Space Complexity = O(n)
 
+# rst <- empty list
+# inorder()
+# return rst
+#
+#Function inorder
+#   IF node is None: return 
+#   visit node.left
+#   rst <- append node.val
+#   visit node.right
 
 class Solution:
     def inorderTraversal(self, root):
@@ -28,6 +39,14 @@ class Solution:
         return rst
 
 # 104. Maximum Depth of Binary Tree (Easy)
+#Time complexity is O(n)
+#Space complexity is O(n)
+
+# Function maxDepth(node):
+#   if node is None: return 0
+# leftdepth <- maxDepth(node.left)
+# rightdepth <- maxDepth(node.right)
+# return max(leftdepth + rightdepth) + 1
 
 class Solution:
     def maxDepth(self, root):
@@ -38,7 +57,13 @@ class Solution:
         return max(right, left)+1
 
 # 100. Same Tree (Easy)
+#Time complexity is O(n)
+#Space complexity is O(n)
 
+# Function isSameTree(tree_A, tree_B):
+#  if tree_A is null and tree_B is null: return true
+#  if tree_A is null or tree_B is null: return False
+#    return tree_A.val == tree_B.val and isSameTree(tree_A.right, tree_B.right), isSameTree(tree_A.left, tree_B.left)
 class Solution:
     def isSameTree(self, p, q):
         if p and q:
@@ -60,8 +85,8 @@ class Solution:
         level = [root]
         while level:
             rst.append([node.val for node in level])
-            pair = [(node.left, node.right) for node in level]
-            level = [n for node in pair for n in node if n]
+            pairs = [(node.left, node.right) for node in level]
+            level = [node for pair in pairs for node in pair if node]
         return rst
     
 
@@ -122,6 +147,13 @@ class Solution:
 
 
 # 112. Path Sum (Easy)
+
+#Function hasPathSum(root, targetSum):
+#   if root is empty: return False
+#   if root.left is null and root.right is null: return targetSum == root.val
+#   right <- haspathSum(root.right, targetSum - root.val)
+#   left <- haspathSum(root.left, targetSum - root.val)
+#   return right or left
 
 class Solution:
     def hasPathSum(self, root, targetSum):
