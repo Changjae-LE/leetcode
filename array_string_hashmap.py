@@ -6,6 +6,7 @@
 """
 #from collections import Counter, defaultdict
 #import re
+#from bisect import bisect_right
 
 # ========================================================
 # Array : 5 questions
@@ -309,22 +310,22 @@ class Solution:
 # Space Complexity: O(1)
 
 class Solution:
-    def minWastedSpace(self, packages: List[int], boxes: List[List[int]]) -> int:
+    def minWastedSpace(self, packages, boxes):
         packages.sort()
-        rst = float('inf')
+        rst = float("inf")
         for box in boxes:
             box.sort()
             if packages[-1] > box[-1]:
                 continue
-            total = pointer = 0
+            total = 0
+            pointer = 0
             for b in box:
-                #idx = bisect_right(packages, b, lo=pointer)
-                while idx < len(packages) and packages[idx] <= b:
-                    idx += 1
+                idx = pointer
+                idx = bisect_right(packages, b, lo=pointer)
                 total += (idx - pointer) * b
                 pointer = idx
             rst = min(rst, total)
-        return -1 if rst == float('inf') else (rst - sum(packages)) % (10**9 + 7)
+        return -1 if rst == float("inf") else (rst - sum(packages)) % (10**9 + 7)
 
 # ========================================================
 # String : 4 questions
