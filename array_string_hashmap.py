@@ -303,6 +303,28 @@ class Solution:
                 left += 1
 
         return best
+    
+# 1889. Minimum Space Wasted From Packaging (Hard)
+# Time Complexity: O(nlogn)
+# Space Complexity: O(1)
+
+class Solution:
+    def minWastedSpace(self, packages: List[int], boxes: List[List[int]]) -> int:
+        packages.sort()
+        rst = float('inf')
+        for box in boxes:
+            box.sort()
+            if packages[-1] > box[-1]:
+                continue
+            total = pointer = 0
+            for b in box:
+                #idx = bisect_right(packages, b, lo=pointer)
+                while idx < len(packages) and packages[idx] <= b:
+                    idx += 1
+                total += (idx - pointer) * b
+                pointer = idx
+            rst = min(rst, total)
+        return -1 if rst == float('inf') else (rst - sum(packages)) % (10**9 + 7)
 
 # ========================================================
 # String : 4 questions
