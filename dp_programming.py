@@ -10,6 +10,7 @@
 # 70. Climbing Stairs (Easy)
 # Time Complexity = O(n)
 # Space Complexity = O(n)
+# Recurrence relation: dp[i] = dp[i-1] + dp[i-2]
 
 # CREATE array dp
 # dp[0] <- 0, dp[1] <- 1, dp[2] <- 2
@@ -34,6 +35,7 @@ class Solution:
 # 53. Maximum Subarray (Medium)
 # Time Complextity: O(n)
 # Space Complexity: O(1)
+# Recurrence relation: dp[i]=max(nums[i], dp[i−1]+nums[i])
 
 # FUNCTION maxSubArray(nums)
 #   max_sub ← nums[0]
@@ -55,6 +57,9 @@ class Solution:
 # 121. Best Time to Buy and Sell Stock (Medium)
 # Time Complextity: O(n)
 # Space Complexity: O(1)
+# Recurrence relation: min_price[i] = min(min_price[i-1], price[i])
+# Recurrence relation: dp[i] = Max(dp[i-1], price[i]-min_price[i-1])
+
 
 # FUNCTION maxProfit(prices)
 #   min_price <- prices[0]
@@ -80,6 +85,7 @@ class Solution:
 # 62. Unique Paths (Medium)
 # Time Complextity: O(mn)
 # Space Complexity: O(mn)
+# Recurrence relation: dp[i][j] = dp[i-1][j] + dp[i][j-1]
 
 # FUNCTION uniquePaths(m, n)
 #   CREATE 2D array dp of size m x n
@@ -104,6 +110,7 @@ class Solution:
 # 322. Coin Change (Medium)
 # Time Complexity: O(amount x k)
 # Space Complexity: O(amount)
+# Recurrence relation: dp[i] = min(dp[i], dp[i - coin] + 1)
 
 #   FUNCTION coinChange(coins, amount)
 #   CREATE 2D array dp of size m x n
@@ -123,12 +130,10 @@ class Solution:
     def coinChange(self, coins, amount):
         dp = [float("inf")] * (amount + 1)
         dp[0] = 0
-        
+
         for i in range(1, amount + 1):
             for coin in coins:
                 if i - coin >= 0:
                     dp[i] = min(dp[i], dp[i - coin] + 1)
         
         return dp[amount] if dp[amount] != float("inf") else -1
-    
-
