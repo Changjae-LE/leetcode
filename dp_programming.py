@@ -137,3 +137,107 @@ class Solution:
                     dp[i] = min(dp[i], dp[i - coin] + 1)
         
         return dp[amount] if dp[amount] != float("inf") else -1
+    
+# 300. Longest Increasing Subsequence (Medium)
+# Recurrence:
+# dp[i] = 1 + max(dp[j])
+# where 0 <= j < i and nums[j] < nums[i]
+class Solution(object):
+    def lengthOfLIS(self, nums):
+
+        tails = []
+        for x in nums:
+            i = bisect_left(tails, x)  # 첫 >= x 위치
+            if i == len(tails):
+                tails.append(x)
+            else:
+                tails[i] = x
+        return len(tails)
+
+
+
+
+# 1143. Longest Common Subsequence (Medium)
+# Time Complexity: O(mn)
+# Space Complexity: O(mn)
+
+#pseudo code
+# m <- length(text1)
+# n <- length(text2)
+# dp <- array of size m x n, filled with 0
+# For i = 1 TO m:
+#   For j = 1 TO n+1:
+#       IF text[i-1] == text[j-1] DO
+#           dp[i][j] <- dp[i-1][j-1] + 1
+#       ELSE:
+#           dp[i][j] <- MAX(dp[i-1][j], dp[i][j-1])
+#       END IF
+#   END FOR
+# END FOR
+# RETURN dp[m][n]
+
+#recurrence:
+# If text1[i-1] == text2[j-1]:
+#     dp[i][j] = dp[i-1][j-1] + 1
+# Else:
+#     dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+class Solution:
+    def longestCommonSubsequence(self, text1, text2):
+        m = len(text1)
+        n = len(text2)
+
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+        return dp[m][n]
+
+# 139. Word Break (Medium)
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        
+        wordSet = set(wordDict)
+        dp = [True]
+
+        for i in range(1, len(s) + 1):
+            dp.append(any(dp[j] and s[j:i] in wordSet for j in range(i)))
+
+        return dp[-1]
+
+# 198. House Robber (Medium)
+class Solution(object):
+    def rob(self, nums):
+
+        bf2, adj = 0, 0
+        for cur in nums:
+            bf2, adj = adj, max(bf2 + cur, adj)
+
+        return adj
+
+
+# 213. House Robber II (Medium)
+class Solution():
+    def rob(self, nums):
+
+        def simple(arr):
+            prev2, prev1 = 0, 0
+            for x in arr:
+                prev2, prev1 = prev1, max(prev1, prev2 + x)
+            return prev1
+
+        if len(nums) <= 1:
+            return sum(nums)
+
+        return max(simple(nums[1:]), simple(nums[:-1]))
+
+
+# 91. Decode Ways (Medium)
+
+
+
+# 55. Jump Game (Medium)
