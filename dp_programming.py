@@ -210,25 +210,62 @@ class Solution(object):
         return dp[-1]
 
 # 198. House Robber (Medium)
+# Time Complexity = O(n)
+# Space Complexity = O(n)
+# Pseudo Code:
+# Create array dp <- size of len(nums) + 1 filled with 0
+# dp[0] <= 1, dp[1] <- nums[0]
+# FOR i=2 TO len(nums) + 1:
+#   dp[i] <- max(dp[i-1], dp[i-2] + nums[i-1])
+# RETURN dp[-1] 
 class Solution(object):
     def rob(self, nums):
+        dp = [0] * (len(nums) + 1)
+        dp[0] = 0
+        dp[1] = nums[0]
+        for i in range(2, len(nums)+1):
+            dp[i] = max(dp[i-1], dp[i-2] + nums[i-1])
+        return dp[-1]
 
-        bf2, adj = 0, 0
-        for cur in nums:
-            bf2, adj = adj, max(bf2 + cur, adj)
+        # optimal
+        #bf2, adj = 0, 0
+        #for cur in nums:
+        #    bf2, adj = adj, max(bf2 + cur, adj)
 
-        return adj
+        #return adj
 
 
 # 213. House Robber II (Medium)
+# Time Complexity = O(n)
+# Space Complexity = O(1)
+
+# 첫번째 인덱스 없는 버전과 마지막 인덱스 없는 버전 중 큰 것
+# FUNCTION rob(nums):
+# IF length(nums) == 0:
+#   return 0
+# IF length(nums) == 1:
+#   return 1
+#   case1 = rob_linear(nums, 1, n)
+#   case2 = rob_linear(nums, 0, n-1)
+#   RETURN max(case1, case2)
+
+# FUNCTION rob_linear(nums, start, end):
+#   bf2 = 0
+#   bf1 = 0
+#   FOR i from start to end-1:
+#       cur = max(bf1, bf2 + nums[i])
+#       bf2 = bf1
+#       bf1 = cur
+#   RETURN prev1
+
 class Solution():
     def rob(self, nums):
 
         def simple(arr):
-            prev2, prev1 = 0, 0
+            bf2, bf1 = 0, 0
             for x in arr:
-                prev2, prev1 = prev1, max(prev1, prev2 + x)
-            return prev1
+                bf2, bf1 = bf1, max(bf1, bf2 + x)
+            return bf1
 
         if len(nums) <= 1:
             return sum(nums)
@@ -237,7 +274,40 @@ class Solution():
 
 
 # 91. Decode Ways (Medium)
+# Time Complexity = O(n)
+# Space Complexity = O(n)
 
+#pseudo code
+# dp[0] <- 1 
+# dp[1] <- 1 if s[0] != "0" else 0
+# for i = 2 TO n:
+#       if 1 <= s[i-1] <= 9:
+#           dp[i] += dp[i-1]
+#       if 10 <= s[i-2:i] <= 26:
+#           dp[i] += dp[i-2]
+#return dp[n]
 
+#Recurrence (for i >= 2):
+#dp[i] = 0
+#if s[i-1] != '0':
+#    dp[i] += dp[i-1]
+#if 10 <= int(s[i-2:i]) <= 26:
+#    dp[i] += dp[i-2]
 
-# 55. Jump Game (Medium)
+class Solution:
+    def numDecodings(self, s):
+
+        if not s: return 0
+
+        dp = [0] * (len(s)+1)
+        dp[0] = 1
+        dp[1] = 0 if s[0] == '0' else 1
+
+        for i in range(2, len(s)+1):
+            if 0 < int(s[i-1]) <= 9:
+                dp[i] += dp[i-1]
+            
+            if 10 <= int(s[i-2:i]) <= 26:
+                dp[i] += dp[i-2]
+
+        return dp[len(s)]
