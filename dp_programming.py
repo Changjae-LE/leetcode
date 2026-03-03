@@ -151,9 +151,16 @@ class Solution(object):
             if i == len(tails):
                 tails.append(x)
             else:
-                tails[i] = x
+                tails[i] = x# 가장 큰 값보다 작으면 교체
         return len(tails)
 
+        #dp = [1]*len(nums)
+        #for i in range(len(nums)):
+        #    for j in range(i):
+        #        if nums[j] < nums[i]:
+        #            dp[i] = max(dp[i], dp[j] + 1)
+
+        #return max(dp)
 
 
 
