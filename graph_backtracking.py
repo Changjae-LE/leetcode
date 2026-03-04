@@ -127,7 +127,62 @@ class Solution:
         return True
 
 # 1971. Find if Path Exists in Graph
+# Two approaches: DFS and Union-Find
 
+# DFS
+class Solution:
+    def validPath(self, n, edges, source, destination):
+        if source == destination:
+            return True
+
+        graph = [[] for _ in range(n)]
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        stack = [source]
+        visited = [False] * n
+        visited[source] = True
+
+        while stack:
+            cur = stack.pop()
+            if cur == destination:
+                return True
+            for nxt in graph[cur]:
+                if not visited[nxt]:
+                    visited[nxt] = True
+                    stack.append(nxt)
+
+        return False
+
+# Union-Find
+class Solution:
+    def validPath(self, n, edges, source, destination):
+        parent = list(range(n))
+        rank = [0] * n
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        def union(a, b):
+            ra, rb = find(a), find(b)
+            if ra == rb:
+                return
+            if rank[ra] < rank[rb]:
+                parent[ra] = rb
+            elif rank[ra] > rank[rb]:
+                parent[rb] = ra
+            else:
+                parent[rb] = ra
+                rank[ra] += 1
+
+        for u, v in edges:
+            union(u, v)
+
+        return find(source) == find(destination)
 # ========================================================
 # Backtracking : 6 questions
 # ========================================================    
