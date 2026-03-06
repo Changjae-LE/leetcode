@@ -42,6 +42,14 @@ class Solution:
                 l += 1
             else:
                 return [arr[l][1], arr[r][1]]
+            
+    #seen = {}
+
+    #for i, num in enumerate(nums):
+    #    diff = target - num
+    #    if diff in seen:
+    #        return [seen[diff], i]
+    #    seen[num] = i
 
 # 26. Remove Duplicates from Sorted Array (Easy)
 # Time Complexity: O(n)
@@ -612,7 +620,7 @@ class Solution:
 
         
         window = Counter(s[:m])
-        need= Counter(p)
+        frame= Counter(p)
         rst = []
 
         if window == need:
@@ -624,7 +632,7 @@ class Solution:
             if window[s[right-m]] == 0:
                 del window[s[right-m]]
 
-            if window == need:
+            if window == frame:
                 rst.append(right - m + 1)
         return rst
 
@@ -679,7 +687,7 @@ class Solution:
 
 class Solution(object):
     def mergeTwoLists(self, list1, list2):
-        
+
         head = dummy = ListNode(-1)
 
         while list1 and list2:
