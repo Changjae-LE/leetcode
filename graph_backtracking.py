@@ -191,41 +191,27 @@ class Solution:
 class Solution:
     def permute(self, nums):
 
-
-    #    rst = [] 
-    #    self.backtrack(nums, [], rst) 
-    #    return rst 
-        
-    #def backtrack(self, nums, path, rst): 
-        
-    #    if len(path) == len(nums): 
-    #        rst.append(path[:]) 
-    #        return 
-            
-    #    for n in nums: 
-    #        if n in path: 
-    #            continue 
-    #        path.append(n) 
-    #        self.backtrack(nums, path, rst) 
-    #        path.pop()
-        
         rst = []
-        self.dfs(nums, rst, [])
+        visited = [False]*len(nums)
+        self.dfs(nums, rst, [], visited)
         return rst
 
-    def dfs(self, nums, rst, path):
-        if len(nums) == len(path):
-            rst.append(path)
+
+    def dfs(self, nums, rst, path, visited):
+        if len(path) == len(nums):
+            rst.append(path[:])
             return
 
         for i in range(len(nums)):
-            if nums[i] not in path:
-                self.dfs(nums, rst, path + [nums[i]])
-    
+            if visited[i] == False:
+                path.append(nums[i])
+                visited[i] = True
+                self.dfs(nums, rst, path, visited)
+                
+                path.pop()
+                visited[i] = False
 
 
-
-    
 # 47. Permutations II (Medium)
 
 class Solution(object):
