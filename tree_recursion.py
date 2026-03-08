@@ -111,40 +111,42 @@ class Solution:
 
 class Solution:
     def buildTree(self, inorder, postorder):
-        #if inorder:
-        #    idx = inorder.index(postorder.pop())
-        #    root = TreeNode(inorder[idx])
-        #    root.right = self.buildTree(inorder[idx+1:], postorder) ## right first!!!
-        #    root.left = self.buildTree(inorder[:idx], postorder)
-        #    return root
 
+        if not inorder:
+            return None
 
+        root_val = postorder.pop()
+        tree = TreeNode(root_val)
+        mid = inorder.index(root_val)
 
-        idx = {v: i for i, v in enumerate(inorder)}
-        post_i = len(postorder) - 1
+        tree.right = self.buildTree(inorder[mid+1:], postorder)
+        tree.left = self.buildTree(inorder[:mid], postorder)
 
-        def helper(l, r):
-            nonlocal post_i
-            if l > r:
-                return None
+        return tree
 
-            root_val = postorder[post_i]
-            post_i -= 1
-            root = TreeNode(root_val)
+# 889. Construct Binary Tree from Preorder and Postorder Traversal (Medium)
+class Solution:
+    def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not preorder:
+            return None
 
-            mid = idx[root_val]
+        root = TreeNode(preorder[0])
 
-            root.right = helper(mid + 1, r)
-            root.left = helper(l, mid - 1)
-
+        if len(preorder) == 1:
             return root
 
-        return helper(0, len(inorder) - 1)
+        left_root = preorder[1]
+        idx = postorder.index(left_root)
+        left_size = idx + 1
+
+        root.left = self.constructFromPrePost(preorder[1:1 + left_size], postorder[:left_size])
+        root.right = self.constructFromPrePost(preorder[1 + left_size:], postorder[left_size:-1])
+
+        return root
     
 # ========================================================
 # Recursion/DFS : 5 questions
 # ========================================================
-
 
 # 112. Path Sum (Easy)
 
@@ -159,7 +161,7 @@ class Solution:
     def hasPathSum(self, root, targetSum):
         if not root:
             return False
-        
+
         if not root.left and not root.right:
             return targetSum == root.val
 
@@ -181,7 +183,7 @@ class Solution:
 
         root.left, root.right = root.right, root.left
         return root
-    
+
 # 572. Subtree of Another Tree (Easy)
 
 class Solution:
@@ -190,7 +192,6 @@ class Solution:
         if not root:
             return False
         return self.isSametree(root, subRoot) or self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
-
 
     def isSametree(self, root, subRoot):
         if root and subRoot:
