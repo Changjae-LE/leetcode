@@ -320,20 +320,20 @@ class Solution:
 class Solution:
     def minWastedSpace(self, packages, boxes):
         packages.sort()
-        rst = float("inf")
+        box_best = float("inf")
         for box in boxes:
             box.sort()
-            if packages[-1] > box[-1]:
+            if box[-1] < packages[-1]:
                 continue
-            total = 0
-            pointer = 0
+            start = 0
+            end = 0
+            box_sum = 0
             for b in box:
-                idx = pointer
-                idx = bisect_right(packages, b, lo=pointer)
-                total += (idx - pointer) * b
-                pointer = idx
-            rst = min(rst, total)
-        return -1 if rst == float("inf") else (rst - sum(packages)) % (10**9 + 7)
+                end = bisect_right(packages, b, lo=end)
+                box_sum += (end-start) * b
+                start = end
+            box_best = min(box_best, box_sum)
+        return -1 if box_best == float("inf") else (box_best - sum(packages)) % (10**9 + 7)
 
 # ========================================================
 # String : 4 questions
