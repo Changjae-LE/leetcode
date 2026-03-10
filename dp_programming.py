@@ -318,3 +318,14 @@ class Solution:
                 dp[i] += dp[i-2]
 
         return dp[len(s)]
+
+# 55. Jump Game (Medium)
+
+class Solution:
+    def canJump(self, nums):
+
+        end = len(nums)-1
+        for i in range(len(nums)-2, -1, -1):
+            if end <= i + nums[i]:
+                end = i
+        return True if end == 0 else False
