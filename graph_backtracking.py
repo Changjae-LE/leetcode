@@ -188,6 +188,8 @@ class Solution:
 # ========================================================    
 
 # 46. Permutations (Medium)
+# if num not in path: -> inefficient
+
 class Solution:
     def permute(self, nums):
 
