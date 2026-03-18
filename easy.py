@@ -117,8 +117,14 @@ class Solution:
 # Topic : Array, two pointers
 # ======================================================================
 
-
-
+class Solution:
+    def removeDuplicates(self, nums):
+        count = 1
+        for i in range(1, len(nums)):
+            if nums[i-1] != nums[i]:
+                nums[count] = nums[i]
+                count += 1
+        return count
 
 
 # ======================================================================
@@ -126,7 +132,16 @@ class Solution:
 # Topic : Array, two pointers
 # ======================================================================
 
+class Solution:
+    def removeElement(self, nums, val):
 
+        count, i = 0, 0
+        while i < len(nums):
+            if nums[i] != val:
+                nums[count] = nums[i]
+                count += 1
+            i += 1
+        return count
 
 
 # ======================================================================
@@ -134,7 +149,14 @@ class Solution:
 # Topic : string, index
 # ======================================================================
 
-
+class Solution:
+    def strStr(self, haystack, needle):
+        
+        n = len(needle) -1
+        for i in range(len(haystack) - n):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+        return -1
 
 
 # ======================================================================
