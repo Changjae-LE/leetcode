@@ -135,12 +135,12 @@ class Solution:
 class Solution:
     def removeElement(self, nums, val):
 
-        count, i = 0, 0
-        while i < len(nums):
+        count = 0
+
+        for i in range(len(nums)):
             if nums[i] != val:
                 nums[count] = nums[i]
                 count += 1
-            i += 1
         return count
 
 
@@ -158,13 +158,46 @@ class Solution:
                 return i
         return -1
 
+# ======================================================================
+# 415. Add Strings
+# Topic : list, string
+# ======================================================================
 
+class Solution:
+    def addStrings(self, num1, num2):
+        
+        i = len(num1) - 1
+        j = len(num2) - 1
+        carry = 0
+        rst = []
+
+        while i>=0 or j>=0 or carry:
+            n1 = int(num1[i]) if i >= 0 else 0
+            n2 = int(num2[j]) if j >= 0 else 0
+
+            total = n1 + n2 + carry
+            carry = total // 10
+            rst.append(str(total%10))
+
+            i-=1
+            j-=1
+
+        return "".join(rst[::-1])
 # ======================================================================
 # 66. Plus One
 # Topic : list, plus
 # ======================================================================
 
+class Solution:
+    def plusOne(self, digits):
+        
+        for i in reversed(range(len(digits))):
+            if digits[i] != 9:
+                digits[i] += 1
+                return digits
+            digits[i] = 0 #All digits are 9
 
+        return [1] + digits
 
 
 
