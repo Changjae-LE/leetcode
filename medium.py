@@ -53,3 +53,31 @@ class Solution:
         self.dfs(grid, i-1, j)
         self.dfs(grid, i, j+1)
         self.dfs(grid, i, j-1)
+
+
+
+# ======================================================================
+# 46. Permutations
+# Topic : DFS
+# ======================================================================
+
+class Solution:
+    def permute(self, nums):
+        rst = []
+        seen = [0] * len(nums)
+        self.dfs(nums, rst, [], seen)
+        return rst
+
+
+    def dfs(self, nums, rst, path, seen):
+        if len(nums) == len(path):
+            rst.append(path[:])
+            return
+
+        for i in range(len(nums)):
+            if seen[i] == 0:
+                path.append(nums[i])
+                seen[i] = 1
+                self.dfs(nums, rst, path, seen)
+                path.pop()
+                seen[i] = 0
