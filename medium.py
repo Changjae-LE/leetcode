@@ -81,3 +81,48 @@ class Solution:
                 self.dfs(nums, rst, path, seen)
                 path.pop()
                 seen[i] = 0
+
+# ======================================================================
+# 416. Partition Equal Subset Sum
+# Topic : DP
+# ======================================================================
+
+class Solution:
+    def canPartition(self, nums):
+        total = sum(nums)
+
+        if total % 2 != 0:
+            return False
+
+        target = total // 2
+        dp = [False] * (target + 1)
+        dp[0] = True
+
+        for num in nums:
+            for s in reversed(range(num, target+1)):
+                dp[s] = dp[s] or dp[s-num]
+                if dp[target]:
+                    return True
+
+        return False
+
+
+# ======================================================================
+# 474. Ones and Zeroes
+# Topic : DP
+# ======================================================================
+
+class Solution:
+    def findMaxForm(self, strs, m, n):
+        dp = [[0] * (n+1) for _ in range(m+1)]
+
+        for s in strs:
+            zeros = s.count('0')
+            ones = s.count('1')
+
+            for i in reversed(range(zeros, m+1)):
+                for j in reversed(range(ones, n+1)):
+                    dp[i][j] = max(dp[i][j], dp[i-zeros][j-ones] + 1)
+            
+
+        return dp[m][n]
