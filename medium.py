@@ -126,3 +126,30 @@ class Solution:
             
 
         return dp[m][n]
+    
+
+
+# ======================================================================
+# 526. Beautiful Arrangement
+# Topic : DP
+# ======================================================================
+
+class Solution:
+    def countArrangement(self, n):
+        used = [False] * (n + 1)
+        return self.backtrack(1, n, used)
+        
+
+    def backtrack(self, idx, n, used):
+        if idx > n:
+            return 1
+
+        count = 0
+
+        for num in range(1, n + 1):
+            if not used[num] and (num % idx == 0 or idx % num == 0):
+                used[num] = True
+                count += self.backtrack(idx + 1, n, used)
+                used[num] = False
+
+        return count
