@@ -95,12 +95,12 @@ class Solution:
             return False
 
         target = total // 2
-        dp = [False] * (target + 1)
+        dp = [False] * (target + 1) # 해당하는 값을 만들 수 있는지
         dp[0] = True
 
-        for num in nums:
-            for s in reversed(range(num, target+1)):
-                dp[s] = dp[s] or dp[s-num]
+        for num in nums: # 해당 num을 넣었을 때
+            for s in reversed(range(num, target+1)):#만들수 이는 값은 num~target 사이의 값이다.
+                dp[s] = dp[s] or dp[s-num]#만약 num을 더했을 때 s가 되는 값이 True라면 True
                 if dp[target]:
                     return True
 
@@ -121,8 +121,8 @@ class Solution:
             ones = s.count('1')
 
             for i in reversed(range(zeros, m+1)):
-                for j in reversed(range(ones, n+1)):
-                    dp[i][j] = max(dp[i][j], dp[i-zeros][j-ones] + 1)
+                for j in reversed(range(ones, n+1)):#0을 i개, 1을 j개까지 쓸 수 있을 때, 만들 수 있는 문자열 최대 개수
+                    dp[i][j] = max(dp[i][j], dp[i-zeros][j-ones] + 1)#해당 문자열을 쓰는 경우와 안쓰는 경우
             
 
         return dp[m][n]
