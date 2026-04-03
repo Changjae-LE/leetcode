@@ -153,3 +153,31 @@ class Solution:
                 used[num] = False
 
         return count
+# ======================================================================
+# 49. Group Anagrams
+# Topic: Hashmap
+# ======================================================================
+class Solution:
+    def groupAnagrams(self, strs):
+        str_dict = {}
+        for s in strs:
+            key = "".join(sorted(s))
+            if key in str_dict:
+                str_dict[key].append(s)
+            else:
+                str_dict[key] = [s]
+        return list(str_dict.values())
+    
+# ======================================================================
+# 347. Top K Frequent Elements (Medium)
+# Topic: Hashmap
+# ======================================================================
+
+class Solution:
+    def topKFrequent(self, nums, k):
+        freq = Counter(nums)
+
+        freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:k]
+
+        return [n[0] for n in freq][:k]
+
