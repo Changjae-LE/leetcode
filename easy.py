@@ -219,3 +219,11 @@ class MyHashMap:
 
     def remove(self, key: int) -> None:
         self.data[key] = -1
+
+# ======================================================================
+# 217. Contains Duplicate
+# Topic : List
+# ======================================================================
+class Solution:
+    def containsDuplicate(self, nums):
+        return len(nums) != len(set(nums))
