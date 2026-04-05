@@ -1,4 +1,20 @@
 # ======================================================================
+# 1. Two Sum
+# Topic : list
+# ======================================================================
+
+class Solution:
+    def twoSum(self, nums, target):
+        seen = {}
+
+        for i, v in enumerate(nums):
+            diff = target - nums[i]
+            if diff in seen:
+                return [i, seen[diff]]
+            seen[v] = i
+        return False
+
+# ======================================================================
 # 13. Roman to Integer
 # Topic : string
 # ======================================================================
@@ -227,3 +243,4 @@ class MyHashMap:
 class Solution:
     def containsDuplicate(self, nums):
         return len(nums) != len(set(nums))
+
