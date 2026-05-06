@@ -244,3 +244,15 @@ class Solution:
     def containsDuplicate(self, nums):
         return len(nums) != len(set(nums))
 
+
+# ======================================================================
+# 226. Invert Binary Tree
+# Topic : Tree
+# ======================================================================
+class Solution:
+    def invertTree(self, root):
+        if not root:
+            return
+        
+        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        return root
