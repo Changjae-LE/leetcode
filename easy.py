@@ -249,6 +249,7 @@ class Solution:
 # 226. Invert Binary Tree
 # Topic : Tree
 # ======================================================================
+# Time Complexity: O(n), Space Complexity: O(log n)
 class Solution:
     def invertTree(self, root):
         if not root:
@@ -261,7 +262,7 @@ class Solution:
 # 141. Linked List Cycle
 # Topic : Linked list
 # ======================================================================
-# solution1
+    # solution1: Time Complexity: O(n), Space Complexity: O(n)
 class Solution:
     def hasCycle(self, head):
         visited = set()
@@ -274,7 +275,9 @@ class Solution:
             head = head.next
 
         return False
-# solution2
+    
+    # solution2: Floyd’s Cycle Detection Algorithm
+    # Time Complexity: O(n), Space Complexity: O(1)
 class Solution:
     def hasCycle(self, head):
         slow = head
@@ -288,3 +291,34 @@ class Solution:
                 return True
 
         return False
+    
+
+# ======================================================================
+# 70. Climbing Stairs
+# Topic : Dynamic Programming
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(n)
+class Solution:
+    def climbStairs(self, n):
+        stair_list = [0, 1, 2]
+        if n <= 2:
+            return stair_list[n]
+
+        for i in range(3, n+1):
+            stair_list.append(stair_list[i-1] + stair_list[i-2])
+        return stair_list[n]
+
+# ======================================================================
+# 104. Maximum Depth of Binary Tree
+# Topic : Binary Tree
+# ======================================================================
+# Time Complexity: O(log n), Space Complexity: O(1)
+class Solution:
+    def maxDepth(self, root):
+        if not root:
+            return 0
+
+        right = self.maxDepth(root.right)
+        left = self.maxDepth(root.left)
+
+        return max(right, left) + 1
