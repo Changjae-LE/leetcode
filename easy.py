@@ -107,7 +107,7 @@ class Solution:
 # 21. Merge Two Sorted Lists
 # Topic : LinkedList
 # ======================================================================
-
+# Time Complexity: O(n + m), Space Complexity: O(1)
 class Solution:
     def mergeTwoLists(self, list1, list2):
         
@@ -253,9 +253,14 @@ class Solution:
 class Solution:
     def invertTree(self, root):
         if not root:
-            return
+            return None
         
-        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        left = self.invertTree(root.left)
+        right = self.invertTree(root.right)
+
+        root.left = right
+        root.right = left
+
         return root
     
 # ======================================================================
