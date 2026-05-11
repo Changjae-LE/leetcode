@@ -327,3 +327,18 @@ class Solution:
         left = self.maxDepth(root.left)
 
         return max(right, left) + 1
+
+# ======================================================================
+# 191. Number of 1 Bits
+# Topic : Bit Manipulation
+# ======================================================================
+# Time Complexity: O(log n), Space Complexity: O(1)
+class Solution:
+    def hammingWeight(self, n):
+        count = 0
+
+        while n:
+            n &= n - 1 #Clears the rightmost 1 bit
+            count += 1
+
+        return count
