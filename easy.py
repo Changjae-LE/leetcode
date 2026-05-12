@@ -342,3 +342,24 @@ class Solution:
             count += 1
 
         return count
+
+# Time Complexity: O(log n), Space Complexity: O(log n)
+class Solution:
+    def hammingWeight(self, n):
+        return bin(n).count("1")
+    
+
+# ======================================================================
+# #190. Reverse Bits
+# Topic : Bit Manipulation
+# ======================================================================
+# Time Complexity: O(1), Space Complexity: O(1)
+class Solution:
+    def reverseBits(self, n):
+        result = 0
+
+        for _ in range(32):
+            result = (result << 1) | (n & 1)
+            n >>= 1
+
+        return result
