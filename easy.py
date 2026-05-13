@@ -2,16 +2,17 @@
 # 1. Two Sum
 # Topic : list
 # ======================================================================
+# Time Complexity = O(n), Space Complexity = O(n)
 
 class Solution:
     def twoSum(self, nums, target):
         seen = {}
-
         for i, v in enumerate(nums):
-            diff = target - nums[i]
+            diff = target - v
             if diff in seen:
-                return [i, seen[diff]]
-            seen[v] = i
+                return [seen[diff], i]
+            else:
+                seen[v] = i
         return False
 
 # ======================================================================
