@@ -351,7 +351,7 @@ class Solution:
     
 
 # ======================================================================
-# #190. Reverse Bits
+# 190. Reverse Bits
 # Topic : Bit Manipulation
 # ======================================================================
 # Time Complexity: O(1), Space Complexity: O(1)
@@ -366,7 +366,7 @@ class Solution:
         return result
 
 # ======================================================================
-# #100. Same Tree
+# 100. Same Tree
 # Topic : Tree
 # ======================================================================
 # Time Complexity: O(n), Space Complexity: O(h)
@@ -382,3 +382,22 @@ class Solution:
             return False
 
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+    
+# ======================================================================
+# 242. Valid Anagram
+# Topic : String
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def isAnagram(self, s, t):
+        return Counter(s) == Counter(t)
+
+# ======================================================================
+# 125. Valid Palindrome
+# Topic : String
+# ======================================================================
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = s.lower()
+        s=re.sub("[^a-z0-9]", "", s)
+        return s == s[::-1]
