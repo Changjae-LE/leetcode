@@ -461,3 +461,55 @@ class Solution:
             return False
         
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+
+# ======================================================================
+# 268. Missing Number
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def missingNumber(self, nums):
+        n = len(nums)
+        expected_sum = n * (n + 1) // 2
+        actual_sum = sum(nums)
+        return expected_sum - actual_sum
+    
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def missingNumber(self, nums):
+        result = len(nums)
+
+        for i in range(len(nums)):
+            result ^= i
+            result ^= nums[i]
+
+        return result
+
+# ======================================================================
+# 206. Reverse Linked List
+# Topic : Linked List
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def reverseList(self, head):
+        prev = None
+
+        while head:
+            next_node = head.next
+            head.next = prev
+            prev = head
+            head = next_node
+        return prev
+
+# ======================================================================
+# 338. Counting Bits
+# Topic : Dynamic Programming, bits
+# ======================================================================
+class Solution:
+    def countBits(self, n):
+        ans = [0] * (n + 1)
+
+        for i in range(1, n + 1):
+            ans[i] = ans[i >> 1] + (i & 1)
+
+        return ans
