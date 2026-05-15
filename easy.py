@@ -396,8 +396,68 @@ class Solution:
 # 125. Valid Palindrome
 # Topic : String
 # ======================================================================
+# Time Complexity: O(n), Space Complexity: O(n)
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         s = s.lower()
         s=re.sub("[^a-z0-9]", "", s)
         return s == s[::-1]
+
+# ======================================================================
+# 20. Valid Parentheses
+# Topic : String
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(n)
+
+class Solution:
+    def isValid(self, s):
+        stk = []
+        
+        for c in s:
+            if c in "({[":
+                if c == "(":
+                    stk.append(")")
+                if c == "{":
+                    stk.append("}")
+                if c == "[":
+                    stk.append("]")
+            else:
+                if stk:
+                    temp = stk.pop()
+                    if temp != c:
+                        return False
+                else:
+                    return False
+        if not stk:
+            return True
+        else:
+            return False
+
+# ======================================================================
+# 572. Subtree of Another Tree
+# Topic : Tree
+# ======================================================================
+# Time Complexity: O(n * m), Space Complexity: O(h_root + h_subRoot)
+
+class Solution:
+    def isSubtree(self, root, subRoot):
+        if not root:
+            return False
+        
+        if self.isSameTree(root, subRoot):
+            return True
+        
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
+
+
+    def isSameTree(self, p, q):
+        if not p and not q:
+            return True
+        
+        if not p or not q:
+            return False
+        
+        if p.val != q.val:
+            return False
+        
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
