@@ -473,7 +473,7 @@ class Solution:
         expected_sum = n * (n + 1) // 2
         actual_sum = sum(nums)
         return expected_sum - actual_sum
-    
+
 # Time Complexity: O(n), Space Complexity: O(1)
 class Solution:
     def missingNumber(self, nums):
@@ -530,3 +530,47 @@ class Solution:
             seen.add(num)
 
         return False
+    
+# ======================================================================
+# 252. Meeting Rooms
+# Topic : Greedy
+# ======================================================================
+# Time Complexity: O(nlogn), Space Complexity: O(1)
+class Solution:
+    def canAttendMeetings(self, intervals):
+        intervals.sort()
+
+        for i in range(1, len(intervals)):
+            if intervals[i - 1][1] > intervals[i][0]:
+                return False
+
+        return True
+# ======================================================================
+# 253. Meeting Rooms II
+# Topic : Greedy
+# ======================================================================
+# Time Complexity: O(nlogn), Space Complexity: O(1)
+class Solution:
+    def canAttendMeetings(self, intervals):
+        if not intervals:
+            return 0
+
+        starts = []
+        ends = []
+
+        for start, end in intervals:
+            starts.append(start)
+            ends.append(end)
+        
+        starts.sort()
+        ends.sort()
+
+        rooms = 0
+        idx = 0
+
+        for start in starts:
+            if start < ends[idx]:
+                rooms += 1
+            else:
+                idx += 1
+        return rooms
