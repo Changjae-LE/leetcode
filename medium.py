@@ -45,7 +45,7 @@ class Solution:
 # 79. Word Search
 # Topic : DFS, Backtracking
 # ======================================================================
-# Time Complexity: O(n^2), Space Complexity: O(1)
+# Time Complexity: O(), Space Complexity: O()
 class Solution:
     def exist(self, board, word):
 
@@ -71,3 +71,22 @@ class Solution:
             self.dfs(board, word, i, j-1, idx+1)
         board[i][j] = cache
         return rst
+    
+# ======================================================================
+# 139. Word Break
+# Topic : DP
+# ======================================================================
+# Time Complexity: O(n^3), Space Complexity: O(n*m)
+class Solution:
+    def wordBreak(self, s, wordDict):
+        wordSet = set(wordDict)
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+
+        for i in range(1, len(s) + 1):
+            for j in range(i):
+                if dp[j] and s[j:i] in wordSet:
+                    dp[i] = True
+                    break
+
+        return dp[len(s)]
