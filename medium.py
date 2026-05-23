@@ -92,7 +92,7 @@ class Solution:
 # ======================================================================
 
 # Solution1: DFS
-# Time Complexity: O(h), Space Complexity: O(1)
+# Time Complexity: O(), Space Complexity: O()
     def isValidBST(self, root):
         return self.dfs(root, float("-inf"), float("inf"))
 
@@ -109,7 +109,7 @@ class Solution:
         return left_valid and right_valid
 
 # Solution2: Inorder
-# Time Complexity: O(n), Space Complexity: O(1)
+# Time Complexity: O(), Space Complexity: O()
 class Solution:
     def isValidBST(self, root):
         rst = []
@@ -127,3 +127,24 @@ class Solution:
         self.inOrder(root.left, rst)
         rst.append(root.val)
         self.inOrder(root.right, rst)
+
+
+# ======================================================================
+# 36. Valid Sudoku
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution(object):
+    def isValidSudoku(self, board):
+        seen = []
+
+        for row_index, row in enumerate(board):
+            for col_index, value in enumerate(row):
+                if value != '.':
+                    seen += [
+                        (value, col_index),
+                        (row_index, value),
+                        (row_index // 3, col_index // 3, value)
+                    ]
+
+        return len(seen) == len(set(seen))
