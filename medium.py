@@ -2,22 +2,18 @@
 # 15. 3Sum
 # Topic : Array
 # ======================================================================
-# Time Complexity: O(n^2), Space Complexity: O(1)
+# Time Complexity: O(), Space Complexity: O()
 class Solution:
     def threeSum(self, nums):
-        n = len(nums)
+        ans = []
         nums.sort()
-        rst = []
-        
-        for i in range(n - 2):
-            if nums[i] > 0:
-                break
 
+        for i in range(len(nums) - 2):
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
 
             left = i + 1
-            right = n - 1
+            right = len(nums) - 1
 
             while left < right:
                 total = nums[i] + nums[left] + nums[right]
@@ -27,19 +23,17 @@ class Solution:
                 elif total > 0:
                     right -= 1
                 else:
-                    rst.append([nums[i], nums[left], nums[right]])
-
-                    while left < right and nums[left] == nums[left + 1]:
-                        left += 1
-
-                    while left < right and nums[right] == nums[right - 1]:
-                        right -= 1
+                    ans.append([nums[i], nums[left], nums[right]])
 
                     left += 1
                     right -= 1
 
-        return rst
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right + 1]:
+                        right -= 1
 
+        return ans
 
 # ======================================================================
 # 79. Word Search
@@ -76,7 +70,7 @@ class Solution:
 # 139. Word Break
 # Topic : DP
 # ======================================================================
-# Time Complexity: O(n^3), Space Complexity: O(n*m)
+# Time Complexity: O(), Space Complexity: O()
 class Solution:
     def wordBreak(self, s, wordDict):
         wordSet = set(wordDict)
@@ -90,3 +84,46 @@ class Solution:
                     break
 
         return dp[len(s)]
+
+
+# ======================================================================
+# 98. Validate Binary Search Tree
+# Topic : DFS, BST
+# ======================================================================
+
+# Solution1: DFS
+# Time Complexity: O(h), Space Complexity: O(1)
+    def isValidBST(self, root):
+        return self.dfs(root, float("-inf"), float("inf"))
+
+    def dfs(self, node, lower, upper):
+        if not node:
+            return True
+
+        if node.val <= lower or node.val >= upper:
+            return False
+
+        left_valid = self.dfs(node.left, lower, node.val)
+        right_valid = self.dfs(node.right, node.val, upper)
+
+        return left_valid and right_valid
+
+# Solution2: Inorder
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def isValidBST(self, root):
+        rst = []
+        self.inOrder(root, rst)
+
+        for i in range(1, len(rst)):
+            if rst[i-1] >= rst[i]:
+                return False
+        return True
+        
+        
+    def inOrder(self, root, rst):
+        if not root:
+            return False
+        self.inOrder(root.left, rst)
+        rst.append(root.val)
+        self.inOrder(root.right, rst)
