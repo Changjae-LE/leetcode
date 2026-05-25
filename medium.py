@@ -148,3 +148,36 @@ class Solution(object):
                     ]
 
         return len(seen) == len(set(seen))
+
+
+# ======================================================================
+# 54. Spiral Matrix
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
+
+        R, C = len(matrix), len(matrix[0])
+        res = []
+        visited = set()
+
+        y, x = 0, 0
+        dy, dx = 0, 1
+
+        for _ in range(R * C):
+            res.append(matrix[y][x])
+            visited.add((y, x))
+
+            ny = y + dy
+            nx = x + dx
+
+            if not (0 <= ny < R and 0 <= nx < C) or (ny, nx) in visited:
+                dy, dx = dx, -dy
+
+            y += dy
+            x += dx
+
+        return res
