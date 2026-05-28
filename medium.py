@@ -156,7 +156,7 @@ class Solution(object):
 # ======================================================================
 # Time Complexity: O(), Space Complexity: O()
 class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+    def spiralOrder(self, matrix):
         if not matrix:
             return []
 
@@ -181,3 +181,25 @@ class Solution:
             x += dx
 
         return res
+
+# ======================================================================
+# 73. Set Matrix Zeroes
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def setZeroes(self, matrix):
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        R, C = len(matrix), len(matrix[0])
+        row = [False] * R
+        col = [False] * C
+        for i in range(R):
+            for j in range(C):
+                if matrix[i][j] == 0:
+                    row[i] = col[j] = True
+        for i in range(R):
+            for j in range(C):
+                if row[i] or col[j]:
+                    matrix[i][j] = 0
