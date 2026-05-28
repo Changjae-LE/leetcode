@@ -203,3 +203,19 @@ class Solution:
             for j in range(C):
                 if row[i] or col[j]:
                     matrix[i][j] = 0
+
+# ======================================================================
+# 48. Rotate Image
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        matrix.reverse()
+
+        for i in range(len(matrix)):
+            for j in range(i + 1, len(matrix)):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
