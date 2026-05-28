@@ -210,7 +210,7 @@ class Solution:
 # ======================================================================
 # Time Complexity: O(), Space Complexity: O()
 class Solution:
-    def rotate(self, matrix: List[List[int]]) -> None:
+    def rotate(self, matrix):
         """
         Do not return anything, modify matrix in-place instead.
         """
