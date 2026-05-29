@@ -94,19 +94,16 @@ class Solution:
 # Solution1: DFS
 # Time Complexity: O(), Space Complexity: O()
     def isValidBST(self, root):
-        return self.dfs(root, float("-inf"), float("inf"))
+        return self.dfs(root, float("+inf"), float("-inf"))
 
-    def dfs(self, node, lower, upper):
-        if not node:
+    def dfs(self, root, upper, lower):
+        if not root:
             return True
-
-        if node.val <= lower or node.val >= upper:
+        
+        if not lower < root.val < upper:
             return False
 
-        left_valid = self.dfs(node.left, lower, node.val)
-        right_valid = self.dfs(node.right, node.val, upper)
-
-        return left_valid and right_valid
+        return self.dfs(root.left, root.val, lower) and self.dfs(root.right, upper, root.val)
 
 # Solution2: Inorder
 # Time Complexity: O(), Space Complexity: O()
@@ -219,3 +216,27 @@ class Solution:
         for i in range(len(matrix)):
             for j in range(i + 1, len(matrix)):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+
+# ======================================================================
+# 19. Remove Nth Node From End of List
+# Topic : Linked List
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def removeNthFromEnd(self, head, n):
+
+        fast = slow = head
+
+        for _ in range(n): fast = fast.next 
+
+        if not fast:
+            return head.next
+
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        slow.next = slow.next.next
+        return head
