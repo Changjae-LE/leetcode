@@ -240,3 +240,24 @@ class Solution:
 
         slow.next = slow.next.next
         return head
+    
+# ======================================================================
+# 238. Product of Array Except Self
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def productExceptSelf(self, nums):
+        ans = [1] * len(nums)
+        
+        #forward
+        for i in range(1, len(nums)):
+            ans[i] *= ans[i-1] * nums[i-1]
+
+
+        #reverse
+        reverse = nums[-1]
+        for i in range(len(nums)-2, -1, -1):
+            ans[i] = ans[i] * reverse
+            reverse = reverse * nums[i]
+        return ans
