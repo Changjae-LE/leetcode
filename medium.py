@@ -261,3 +261,64 @@ class Solution:
             ans[i] = ans[i] * reverse
             reverse = reverse * nums[i]
         return ans
+
+# ======================================================================
+# 200. Number of Islands
+# Topic : Array
+# ======================================================================
+#DFS
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def numIslands(self, grid):
+
+        cnt = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1':
+                    cnt += 1
+                    self.dfs(grid, i, j)
+        return cnt
+
+    def dfs(self, grid, i, j):
+        
+        if not (0 <= i < len(grid)) or not (0 <= j < len(grid[0])) or grid[i][j] == '0':
+            return
+
+        grid[i][j] = '0'
+
+        self.dfs(grid, i+1, j)
+        self.dfs(grid, i-1, j)
+        self.dfs(grid, i, j+1)
+        self.dfs(grid, i, j-1)
+
+#BFS
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def numIslands(self, grid):
+
+        cnt = 0
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == "1":
+                    cnt += 1
+                    self.bfs(grid, i, j, len(grid), len(grid[0]))
+
+        return cnt
+
+    def bfs(self, grid, i, j, R, C):
+        seen = [(i, j)]
+        idx = 0
+        grid[i][j] = "0"
+
+        while idx < len(seen):
+            y, x = seen[idx]
+            idx += 1
+
+            for dy, dx in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                ny = y + dy
+                nx = x + dx
+
+                if 0 <= ny < R and 0 <= nx < C and grid[ny][nx] == "1":
+                    grid[ny][nx] = "0"
+                    seen.append((ny, nx))
