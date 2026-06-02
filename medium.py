@@ -307,12 +307,12 @@ class Solution:
         return cnt
 
     def bfs(self, grid, i, j, R, C):
-        seen = [(i, j)]
+        queue = [(i, j)]
         idx = 0
         grid[i][j] = "0"
 
-        while idx < len(seen):
-            y, x = seen[idx]
+        while idx < len(queue):
+            y, x = queue[idx]
             idx += 1
 
             for dy, dx in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
@@ -321,4 +321,40 @@ class Solution:
 
                 if 0 <= ny < R and 0 <= nx < C and grid[ny][nx] == "1":
                     grid[ny][nx] = "0"
-                    seen.append((ny, nx))
+                    queue.append((ny, nx))
+
+# ======================================================================
+# 56. Merge Intervals
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+#sort()
+class Solution:
+    def merge(self, intervals):
+        intervals.sort()
+        res = []
+
+        for start, end in intervals:
+            if not res or start > res[-1][1]:
+                res.append([start, end])
+            else:
+                res[-1][1] = max(res[-1][1], end)
+
+        return res
+
+#sorted(intervals, key=lambda x: x[0])
+class Solution():
+    def merge(self, intervals):        
+        itv = sorted(intervals, key=lambda x: x[0]) ###
+        rst = []
+
+        for arr in itv:
+            if rst and arr[0] <= rst[-1][1]:
+                rst[-1][1] = max(rst[-1][1], arr[1])
+            else:
+                rst += [arr]
+        return rst
+
+
+
