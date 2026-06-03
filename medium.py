@@ -356,5 +356,19 @@ class Solution():
                 rst += [arr]
         return rst
 
+# ======================================================================
+# 53. Maximum Subarray
+# Topic : Dynamic Programming
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def maxSubArray(self, nums):
+        cur = nums[0]
+        best = nums[0]
 
+        for i in range(1, len(nums)):
+            cur = max(nums[i], cur + nums[i])
+            best = max(best, cur)
+
+        return best
 
