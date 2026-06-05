@@ -372,3 +372,23 @@ class Solution:
 
         return best
 
+# ======================================================================
+# 3. Longest Substring Without Repeating Characters
+# Topic : Sliding Window
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        max_len = 0
+        last = {}
+
+        left = 0
+
+        for right in range(len(s)):
+            if s[right] in last:
+                left = max(left, last[s[right]])
+
+            max_len = max(max_len, right-left+1)
+            last[s[right]] = right+1
+
+        return int(max_len)
