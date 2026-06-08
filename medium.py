@@ -420,3 +420,74 @@ class Solution:
             right += 1
 
         return s[left + 1:right]
+
+# ======================================================================
+# 300. Longest Increasing Subsequence
+# Topic : Dynamic Programming, Binary search
+# ======================================================================
+
+# DP
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def lengthOfLIS(self, nums):
+        dp = [1] * len(nums)
+
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+
+        return max(dp)
+
+# Binary Search
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def lengthOfLIS(self, nums):
+        tails = [0] * len(nums)#길이 i 짜리 증가 부분수열의 가장 작은 끝값을 저장하는 것
+        size = 0
+
+        for n in nums:
+            left, right = 0, size
+
+            while left < right:
+                mid = (left + right) // 2
+
+                if tails[mid] < n:
+                    left = mid + 1
+                else:
+                    right = mid
+
+            tails[left] = n
+            size = max(size, left + 1)# tails의 값을 교체했으면 size 그대로 탐색, 추가했으면 1개 늘어남
+
+        return size
+
+# ======================================================================
+# 33. Search in Rotated Sorted Array
+# Topic : Binary search
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def search(self, nums, target):
+
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:  # 닫힌 구간 [left, right]
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+
+            if nums[left] <= nums[mid]: # 왼쪽 구간 [left, mid]가 정렬되어 있는 경우
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+
+            else:# 오른쪽 구간 [mid, right]가 정렬되어 있는 경우
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+
+        return -1
