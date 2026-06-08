@@ -549,9 +549,9 @@ class Solution:
 # 253. Meeting Rooms II
 # Topic : Greedy
 # ======================================================================
-# Time Complexity: O(nlogn), Space Complexity: O(1)
+# Time Complexity: O(nlogn), Space Complexity: O(n)
 class Solution:
-    def canAttendMeetings(self, intervals):
+    def minMeetingRooms(self, intervals):
         if not intervals:
             return 0
 
@@ -574,3 +574,23 @@ class Solution:
             else:
                 idx += 1
         return rooms
+
+# ======================================================================
+# 704. Binary Search
+# Topic : Binary Search
+# ======================================================================
+# Time Complexity: O(n), Space Complexity: O(1)
+class Solution:
+    def search(self, nums, target):
+        left, right = 0, len(nums)-1
+
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid+1
+            else:
+                right = mid-1
+        
+        return -1
