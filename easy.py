@@ -579,7 +579,7 @@ class Solution:
 # 704. Binary Search
 # Topic : Binary Search
 # ======================================================================
-# Time Complexity: O(n), Space Complexity: O(1)
+# Time Complexity: O(log n), Space Complexity: O(1)
 class Solution:
     def search(self, nums, target):
         left, right = 0, len(nums)-1
