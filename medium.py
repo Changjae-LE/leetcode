@@ -491,3 +491,26 @@ class Solution:
                     right = mid - 1
 
         return -1
+
+# ======================================================================
+# 230. Kth Smallest Element in a BST
+# Topic : Binary search Tree
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def kthSmallest(self, root, k):
+        stk = []
+        cur = root
+
+        while cur or stk:
+            while cur:
+                stk.append(cur)
+                cur = cur.left
+
+            cur = stk.pop()
+            k -= 1
+
+            if k == 0:
+                return cur.val
+
+            cur = cur.right
