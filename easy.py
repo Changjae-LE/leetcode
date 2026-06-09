@@ -594,3 +594,29 @@ class Solution:
                 right = mid-1
         
         return -1
+
+# ======================================================================
+# 35. Search Insert Position
+# Topic : Binary Search(lower bound)
+# ======================================================================
+# Time Complexity: O(log n), Space Complexity: O(1)
+class Solution:
+    def searchInsert(self, nums, target):
+        
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if nums[mid] < target:
+                left = mid + 1
+
+            elif nums[mid] >= target:#target하고 같으면 오른쪽을 버린다.
+                right = mid - 1
+
+# ======================================================================
+# 744. Find Smallest Letter Greater Than Target
+# Topic : Binary Search
+# ======================================================================
+# Time Complexity: O(log n), Space Complexity: O(1)
