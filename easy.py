@@ -614,9 +614,26 @@ class Solution:
 
             elif nums[mid] >= target:#target하고 같으면 오른쪽을 버린다.
                 right = mid - 1
+        return left
 
 # ======================================================================
 # 744. Find Smallest Letter Greater Than Target
 # Topic : Binary Search
 # ======================================================================
 # Time Complexity: O(log n), Space Complexity: O(1)
+class Solution:
+    def nextGreatestLetter(self, letters, target):
+        #upper bound
+
+        left = 0
+        right = len(letters) - 1
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if letters[mid] <= target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return letters[left % len(letters)]
