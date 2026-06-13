@@ -444,24 +444,23 @@ class Solution:
 class Solution:
     def lengthOfLIS(self, nums):
         tails = [0] * len(nums)#길이 i 짜리 증가 부분수열의 가장 작은 끝값을 저장하는 것
+        
         size = 0
 
         for n in nums:
-            left, right = 0, size
-
-            while left < right:
+            left = 0
+            right = size-1
+            while left <= right:
                 mid = (left + right) // 2
-
+                
                 if tails[mid] < n:
                     left = mid + 1
                 else:
-                    right = mid
-
+                    right = mid - 1
             tails[left] = n
             size = max(size, left + 1)# tails의 값을 교체했으면 size 그대로 탐색, 추가했으면 1개 늘어남
-
         return size
-
+    
 # ======================================================================
 # 33. Search in Rotated Sorted Array
 # Topic : Binary search
@@ -523,19 +522,31 @@ class Solution:
 # Time Complexity: O(), Space Complexity: O()
 class Solution:
     def longestConsecutive(self, nums):
-
-        if not nums:
-            return 0
         
-        nums = sorted(set(nums))
+        nums = set(nums)
+        ans = 0
 
-        max_cnt, cnt = 1, 1
-        for i in range(1, len(nums)):
-            if nums[i-1] == nums[i] - 1:
-                cnt += 1
-                max_cnt = max(max_cnt, cnt)
-            else:
-                cnt = 1
+        for n in nums:
+            if n - 1 not in nums:
+                length = 1
 
-        return max_cnt
+                while n + length in nums:
+                    length += 1
 
+                ans = max(ans, length)
+
+        return ans
+
+# ======================================================================
+# 102. Binary Tree Level Order Traversal
+# Topic : Tree
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def levelOrder(self, root):
+        ans, level = [], [root]
+        while root and level:
+            ans.append([node.val for node in level])
+            pair = [(node.left, node.right) for node in level]
+            level = [n for node in pair for n in node if n]
+        return ans
