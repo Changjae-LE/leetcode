@@ -513,4 +513,29 @@ class Solution:
             if k == 0:
                 return cur.val
 
-            cur = cur.right
+            cur = cur.right #오른쪽의 가장 left도 탐색하기 위해
+
+
+# ======================================================================
+# 128. Longest Consecutive Sequence
+# Topic : Array, Hash Table
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def longestConsecutive(self, nums):
+
+        if not nums:
+            return 0
+        
+        nums = sorted(set(nums))
+
+        max_cnt, cnt = 1, 1
+        for i in range(1, len(nums)):
+            if nums[i-1] == nums[i] - 1:
+                cnt += 1
+                max_cnt = max(max_cnt, cnt)
+            else:
+                cnt = 1
+
+        return max_cnt
+
