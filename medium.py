@@ -601,3 +601,52 @@ class Solution:
                 clones[cur].neighbors.append(clones[nxt])
 
         return clones[node]
+    
+
+
+# ======================================================================
+# 322. Coin Change
+# Topic : DP, BFS
+# ======================================================================
+#dp
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def coinChange(self, coins, amount):
+        dp = [float("inf")] * (amount + 1)
+        dp[0] = 0
+
+        for money in range(1, amount + 1):
+            for coin in coins:
+                if money - coin >= 0:
+                    dp[money] = min(dp[money], dp[money - coin] + 1)
+
+        return -1 if dp[amount] == float("inf") else dp[amount]
+    
+#BFS
+# Time Complexity: O(), Space Complexity: O()
+from collections import deque
+
+class Solution:
+    def coinChange(self, coins, amount):
+
+        q = deque([amount])
+        visited = set([amount])
+        depth = 0
+
+        while q:
+            for _ in range(len(q)):
+                amt = q.popleft()
+
+                if amt == 0:
+                    return depth
+
+                for coin in coins:
+                    next_amt = amt - coin
+
+                    if next_amt >= 0 and next_amt not in visited:
+                        visited.add(next_amt)
+                        q.append(next_amt)
+
+            depth += 1
+
+        return -1
