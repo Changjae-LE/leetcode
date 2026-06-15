@@ -524,18 +524,16 @@ class Solution:
     def longestConsecutive(self, nums):
         
         nums = set(nums)
-        ans = 0
+        max_len = 0
 
         for n in nums:
-            if n - 1 not in nums:
+            if n-1 not in nums:
                 length = 1
 
                 while n + length in nums:
                     length += 1
-
-                ans = max(ans, length)
-
-        return ans
+                max_len = max(max_len, length)
+        return max_len
 
 # ======================================================================
 # 102. Binary Tree Level Order Traversal
@@ -547,6 +545,59 @@ class Solution:
         ans, level = [], [root]
         while root and level:
             ans.append([node.val for node in level])
-            pair = [(node.left, node.right) for node in level]
-            level = [n for node in pair for n in node if n]
+            level = [child for node in level for child in (node.left, node.right) if child]
         return ans
+
+
+# ======================================================================
+# 133. Clone Graph
+# Topic : Graph Theory
+# ======================================================================
+
+# DFS
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        if not node:
+            return node
+
+        clones = {}
+        return self.dfs(node, clones)
+
+    def dfs(self, cur, clones):
+        if cur in clones:
+            return clones[cur]
+
+        cloned = Node(cur.val)
+        clones[cur] = cloned
+
+        for nxt in cur.neighbors:
+            cloned.neighbors.append(self.dfs(nxt, clones))
+
+        return cloned
+
+# BFS
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def cloneGraph(self, node):
+        if not node:
+            return node
+
+        clones = {}
+        clones[node] = Node(node.val)
+
+        queue = [node]
+        index = 0
+
+        while index < len(queue):
+            cur = queue[index]
+            index += 1
+
+            for nxt in cur.neighbors:
+                if nxt not in clones:
+                    clones[nxt] = Node(nxt.val)
+                    queue.append(nxt)
+
+                clones[cur].neighbors.append(clones[nxt])
+
+        return clones[node]
