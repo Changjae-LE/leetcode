@@ -539,6 +539,8 @@ class Solution:
 # 102. Binary Tree Level Order Traversal
 # Topic : Tree
 # ======================================================================
+
+# BFS
 # Time Complexity: O(), Space Complexity: O()
 class Solution:
     def levelOrder(self, root):
@@ -548,6 +550,28 @@ class Solution:
             level = [child for node in level for child in (node.left, node.right) if child]
         return ans
 
+
+# DFS
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def levelOrder(self, root):
+
+        ans = []
+        self.dfs(root, 0, ans)
+
+        return ans
+
+    def dfs(self, node, depth, ans):
+        if not node:
+            return
+
+        if len(ans) == depth:
+            ans.append([])
+
+        ans[depth].append(node.val)
+
+        self.dfs(node.left, depth + 1, ans)
+        self.dfs(node.right, depth + 1, ans)
 
 # ======================================================================
 # 133. Clone Graph
@@ -587,17 +611,17 @@ class Solution:
         clones[node] = Node(node.val)
 
         queue = [node]
-        index = 0
+        idx = 0
 
-        while index < len(queue):
-            cur = queue[index]
-            index += 1
+        while idx < len(queue):
+            cur = queue[idx]
+            idx += 1
 
             for nxt in cur.neighbors:
                 if nxt not in clones:
                     clones[nxt] = Node(nxt.val)
                     queue.append(nxt)
-
+                
                 clones[cur].neighbors.append(clones[nxt])
 
         return clones[node]
@@ -650,3 +674,30 @@ class Solution:
             depth += 1
 
         return -1
+
+
+# ======================================================================
+# 39. Combination Sum
+# Topic : DFS, Backtracking
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        rst = []
+        candidates.sort()
+
+        self.dfs(candidates, target, 0, [], rst)
+
+        return rst
+
+    def dfs(self, candidates, target, idx, path, rst):
+        if target < 0:
+            return
+
+        if target == 0:
+            rst.append(path)
+            return
+
+        for i in range(idx, len(candidates)):
+            self.dfs(candidates, target - candidates[i], i, path + [candidates[i]], rst)
