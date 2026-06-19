@@ -584,18 +584,20 @@ class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node:
             return node
-
+        
         clones = {}
-        return self.dfs(node, clones)
+        self.dfs(node, clones)
 
-    def dfs(self, cur, clones):
-        if cur in clones:
-            return clones[cur]
+        return clones[node]
 
-        cloned = Node(cur.val)
-        clones[cur] = cloned
+    def dfs(self, node, clones):
+        if node in clones:
+            return clones[node]
 
-        for nxt in cur.neighbors:
+        cloned = Node(node.val)
+        clones[node] = cloned
+
+        for nxt in node.neighbors:
             cloned.neighbors.append(self.dfs(nxt, clones))
 
         return cloned
@@ -636,13 +638,13 @@ class Solution:
 # Time Complexity: O(), Space Complexity: O()
 class Solution:
     def coinChange(self, coins, amount):
-        dp = [float("inf")] * (amount + 1)
+        dp = [float("+inf")] * (amount+1)
         dp[0] = 0
-
-        for money in range(1, amount + 1):
+        
+        for amt in range(amount + 1):
             for coin in coins:
-                if money - coin >= 0:
-                    dp[money] = min(dp[money], dp[money - coin] + 1)
+                if amt - coin >= 0:
+                    dp[amt] = min(dp[amt], dp[amt-coin] + 1)
 
         return -1 if dp[amount] == float("inf") else dp[amount]
     
@@ -701,3 +703,20 @@ class Solution:
 
         for i in range(idx, len(candidates)):
             self.dfs(candidates, target - candidates[i], i, path + [candidates[i]], rst)
+    
+# ======================================================================
+# 105. Construct Binary Tree from Preorder and Inorder Traversal
+# Topic : Tree, Divide and Conquer
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def buildTree(self, preorder, inorder):
+        if inorder:
+            idx = inorder.index(preorder.pop(0))
+            ans = TreeNode(inorder[idx])
+            ans.left = self.buildTree(preorder, inorder[:idx])
+            ans.right = self.buildTree(preorder, inorder[idx+1:])
+            return ans
+        
+
