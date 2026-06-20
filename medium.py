@@ -584,8 +584,9 @@ class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node:
             return node
-        
+
         clones = {}
+
         self.dfs(node, clones)
 
         return clones[node]
@@ -594,13 +595,13 @@ class Solution:
         if node in clones:
             return clones[node]
 
-        cloned = Node(node.val)
-        clones[node] = cloned
+        clones[node] = Node(node.val)
 
         for nxt in node.neighbors:
-            cloned.neighbors.append(self.dfs(nxt, clones))
+            cloned_neighbor = self.dfs(nxt, clones)
+            clones[node].neighbors.append(cloned_neighbor)
 
-        return cloned
+        return clones[node]
 
 # BFS
 # Time Complexity: O(), Space Complexity: O()
@@ -627,8 +628,6 @@ class Solution:
                 clones[cur].neighbors.append(clones[nxt])
 
         return clones[node]
-    
-
 
 # ======================================================================
 # 322. Coin Change
@@ -720,3 +719,40 @@ class Solution:
             return ans
         
 
+# ======================================================================
+# 207. Course Schedule
+# Topic : Graph, dfs
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        graph = [[] for _ in range(numCourses)]
+        visited = [ 0 for _ in range(numCourses)]
+
+        for x, y in prerequisites:
+            graph[x].append(y)
+
+
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visited):
+                return False
+
+        return True
+
+    def dfs(self, i, graph, visited):
+        
+        if visited[i] == -1:
+            return False
+
+        if visited[i] == 1:
+            return True
+
+        visited[i] = -1
+
+        for j in graph[i]:
+            if not self.dfs(j, graph, visited):
+                return False
+
+        visited[i] = 1
+        return True
