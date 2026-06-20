@@ -721,8 +721,30 @@ class Solution:
 
 # ======================================================================
 # 207. Course Schedule
-# Topic : Graph, dfs
+# Topic : Graph, DFS, BFS (Topological Sort + Kahn’s Algorithm)
 # ======================================================================
+
+# BFS
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        g = {i: [] for i in range(numCourses)}
+        indeg = [0] * numCourses
+        for a,b in prerequisites:
+            g[b].append(a)
+            indeg[a] += 1
+        q = deque(i for i in range(numCourses) if indeg[i] == 0)
+        seen = 0
+        while q:
+            cur = q.popleft(); seen += 1
+            for nei in g[cur]:
+                indeg[nei] -= 1
+                if indeg[nei] == 0:
+                    q.append(nei)
+        return seen == numCourses
+
+
+
+# DFS
 # Time Complexity: O(), Space Complexity: O()
 
 class Solution:
