@@ -732,14 +732,15 @@ class Solution:
 class Solution:
     def canFinish(self, numCourses, prerequisites):
         graph = {i: [] for i in range(numCourses)}
-        indegree = [0] * numCourses
+        num_pre = [0] * numCourses
+
         for a, b in prerequisites:
             graph[b].append(a)
-            indegree[a] += 1
+            num_pre[a] += 1
 
         queue = []
         for i in range(numCourses):
-            if indegree[i] == 0:
+            if num_pre[i] == 0:
                 queue.append(i)
 
         seen = 0
@@ -747,10 +748,12 @@ class Solution:
             cur = queue.pop(0)
             seen += 1
             for nei in graph[cur]:
-                indegree[nei] -= 1
-                if indegree[nei] == 0:
+                num_pre[nei] -= 1
+                if num_pre[nei] == 0:
                     queue.append(nei)
+
         return seen == numCourses
+
 
 
 #1. indegree가 0인 과목을 queue에 넣는다.
@@ -815,3 +818,28 @@ class Solution:
                 left += 1
 
         return max_vol
+    
+
+# ======================================================================
+# 153. Find Minimum in Rotated Sorted Array
+# Topic : Binary Search
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def findMin(self, nums):
+
+        left = 0
+        right = len(nums) - 1
+        min_val = float("inf")
+
+        while left <= right:
+            mid = (left + right)//2
+
+            if nums[left] <= nums[mid]:
+                min_val = min(min_val, nums[left])
+                left = mid + 1
+            else:
+                min_val = min(min_val, nums[mid])
+                right = mid - 1
+
+        return min_val
