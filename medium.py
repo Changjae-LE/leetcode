@@ -711,13 +711,17 @@ class Solution:
 
 class Solution:
     def buildTree(self, preorder, inorder):
-        if inorder:
-            idx = inorder.index(preorder.pop(0))
-            ans = TreeNode(inorder[idx])
-            ans.left = self.buildTree(preorder, inorder[:idx])
-            ans.right = self.buildTree(preorder, inorder[idx+1:])
-            return ans
         
+        if not inorder:
+            return
+
+        idx = inorder.index(preorder.pop(0))
+        node = TreeNode(inorder[idx])
+        node.left = self.buildTree(preorder, inorder[:idx])
+        node.right = self.buildTree(preorder, inorder[idx+1:])
+
+        return node
+
 
 # ======================================================================
 # 207. Course Schedule
@@ -727,54 +731,87 @@ class Solution:
 # BFS
 class Solution:
     def canFinish(self, numCourses, prerequisites):
-        g = {i: [] for i in range(numCourses)}
-        indeg = [0] * numCourses
-        for a,b in prerequisites:
-            g[b].append(a)
-            indeg[a] += 1
-        q = deque(i for i in range(numCourses) if indeg[i] == 0)
+        graph = {i: [] for i in range(numCourses)}
+        indegree = [0] * numCourses
+        for a, b in prerequisites:
+            graph[b].append(a)
+            indegree[a] += 1
+
+        queue = []
+        for i in range(numCourses):
+            if indegree[i] == 0:
+                queue.append(i)
+
         seen = 0
-        while q:
-            cur = q.popleft(); seen += 1
-            for nei in g[cur]:
-                indeg[nei] -= 1
-                if indeg[nei] == 0:
-                    q.append(nei)
+        while queue:
+            cur = queue.pop(0)
+            seen += 1
+            for nei in graph[cur]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
         return seen == numCourses
 
 
+#1. indegree가 0인 과목을 queue에 넣는다.
+#2. queue에서 과목을 하나 꺼내서 수강 처리한다.
+#3. 그 과목을 선수과목으로 가지고 있던 과목들의 indegree를 1 줄인다.
+#4. indegree가 0이 된 과목을 queue에 넣는다.
+#5. 반복 후, 수강한 과목 수 seen이 numCourses와 같으면 True.
 
 # DFS
 # Time Complexity: O(), Space Complexity: O()
 
 class Solution:
     def canFinish(self, numCourses, prerequisites):
-        graph = [[] for _ in range(numCourses)]
-        visited = [ 0 for _ in range(numCourses)]
+        graph = {i: [] for i in range(numCourses)}
 
-        for x, y in prerequisites:
-            graph[x].append(y)
+        for a, b in prerequisites:
+            graph[b].append(a)
 
+        visited = [0] * numCourses
 
-        for i in range(numCourses):
-            if not self.dfs(i, graph, visited):
+        for course in range(numCourses):
+            if not self.dfs(course, graph, visited):
                 return False
 
         return True
 
-    def dfs(self, i, graph, visited):
-        
-        if visited[i] == -1:
+    def dfs(self, course, graph, visited):
+        if visited[course] == 1:#탐색중
             return False
 
-        if visited[i] == 1:
+        if visited[course] == 2:#탐색 완료
             return True
 
-        visited[i] = -1
+        visited[course] = 1
 
-        for j in graph[i]:
-            if not self.dfs(j, graph, visited):
+        for next_course in graph[course]:
+            if not self.dfs(next_course, graph, visited): # 맨 처음은 항상 graph[course] == []
                 return False
 
-        visited[i] = 1
+        visited[course] = 2
         return True
+
+# ======================================================================
+# 11. Container With Most Water
+# Topic : Greedy, Two Pointers
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def maxArea(self, height):
+
+        left = 0
+        right = len(height) - 1
+        max_vol = 0
+
+        while left < right:
+            width = right - left
+            if height[left] >= height[right]:
+                max_vol = max(max_vol, height[right] * width)
+                right -= 1
+            else:
+                max_vol = max(max_vol, height[left] * width)
+                left += 1
+
+        return max_vol
