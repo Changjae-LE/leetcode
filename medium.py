@@ -843,3 +843,53 @@ class Solution:
                 right = mid - 1
 
         return min_val
+
+
+# ======================================================================
+# 49. Group Anagrams
+# Topic : Hash Map
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def groupAnagrams(self, strs):
+
+        dic = {}
+
+        for s in strs:
+            word = ''.join(sorted(s))
+            if word in dic:
+                dic[word].append(s)
+            else:
+                dic[word] = [s]
+
+        return list(dic.values())
+
+
+# ======================================================================
+# 198. House Robber
+# Topic : Dynamic Programming
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def rob(self, nums):
+        dp = [0] * (len(nums)+1)
+        dp[1] = nums[0]
+
+        for i in range(2, len(nums) + 1):
+            dp[i] = max(dp[i-2]+nums[i-1], dp[i-1])#훔칠 경우의 최대 이익, 안훔칠 경우의 최대 이익
+        return dp[-1]
+
+class Solution:
+    def rob(self, nums):
+        prev_rob = 0      # 현재 집을 턴 경우의 최대값
+        prev_not_rob = 0  # 현재 집을 안 턴 경우의 최대값
+
+        for num in nums:
+            new_rob = prev_not_rob + num # 새로운 집을 턴다
+            new_not_rob = max(prev_rob, prev_not_rob) #새로운 집을 안턴다 (이전 집을 털었을 때와 안털었을 때의 최댓값)
+
+            prev_rob = new_rob
+            prev_not_rob = new_not_rob
+
+        return max(prev_rob, prev_not_rob)
