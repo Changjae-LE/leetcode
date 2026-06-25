@@ -893,3 +893,27 @@ class Solution:
             prev_not_rob = new_not_rob
 
         return max(prev_rob, prev_not_rob)
+
+
+
+# ======================================================================
+# 57. Insert Interval
+# Topic : Array
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def insert(self, intervals, newInterval):
+
+        start, end = newInterval[0], newInterval[1]
+        left, right = [], []
+
+        for itv in intervals:
+            if itv[1] < start:
+                left.append(itv)
+            elif itv[0] > end:
+                right.append(itv)
+            else:
+                start = min(start, itv[0])
+                end = max(end, itv[1])
+
+        return left + [[start, end]] + right
