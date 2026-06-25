@@ -917,3 +917,76 @@ class Solution:
                 end = max(end, itv[1])
 
         return left + [[start, end]] + right
+    
+
+# ======================================================================
+# 208. Implement Trie (Prefix Tree)
+# Topic : Design
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Trie:
+
+    def __init__(self):
+        self.root = {}
+        self.end = "#"
+
+    def insert(self, word) :
+        cur = self.root
+
+        for ch in word:
+            if ch not in cur:
+                cur[ch] = {}
+            cur = cur[ch]
+
+        cur[self.end] = True
+
+    def search(self, word):
+        cur = self.root
+
+        for ch in word:
+            if ch not in cur:
+                return False
+            cur = cur[ch]
+
+        return self.end in cur
+
+    def startsWith(self, prefix):
+        cur = self.root
+
+        for ch in prefix:
+            if ch not in cur:
+                return False
+            cur = cur[ch]
+
+        return True
+        
+
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+
+
+
+# ======================================================================
+# 55. Jump Game
+# Topic : Dynamic Programming
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        reachable_max = 0
+        for i in range(len(nums)):
+
+            if i > reachable_max:
+                return False
+
+            reachable_max = max(reachable_max, i + nums[i])
+
+            if reachable_max >= len(nums)-1:
+                return True
+        return False
