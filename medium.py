@@ -978,7 +978,7 @@ class Trie:
 # Time Complexity: O(), Space Complexity: O()
 
 class Solution:
-    def canJump(self, nums: List[int]) -> bool:
+    def canJump(self, nums):
         reachable_max = 0
         for i in range(len(nums)):
 
@@ -990,3 +990,19 @@ class Solution:
             if reachable_max >= len(nums)-1:
                 return True
         return False
+
+# ======================================================================
+# 62. Unique Paths
+# Topic : Dynamic Programming
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+
+class Solution:
+    def uniquePaths(self, m, n):
+        
+        dp = [[1] * n] * m
+
+        for r in range(1, m):
+            for c in range(1, n):
+                dp[r][c] = dp[r-1][c] + dp[r][c-1]
+        return dp[-1][-1]
