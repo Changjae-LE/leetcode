@@ -1006,3 +1006,28 @@ class Solution:
             for c in range(1, n):
                 dp[r][c] = dp[r-1][c] + dp[r][c-1]
         return dp[-1][-1]
+
+# ======================================================================
+# 435. Non-overlapping Intervals
+# Topic : Dynamic Programming, Greedy
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda x: x[1])
+
+        remove = 0
+        prev_end = intervals[0][1]
+
+        for i in range(1, len(intervals)):
+            start, end = intervals[i]
+
+            # 겹치지 않는 경우
+            if start >= prev_end:
+                prev_end = end
+            
+            # 겹치는 경우
+            else:
+                remove += 1
+
+        return remove
