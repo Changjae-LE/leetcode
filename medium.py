@@ -1031,3 +1031,39 @@ class Solution:
                 remove += 1
 
         return remove
+
+# ======================================================================
+# 143. Reorder List
+# Topic : Linked List
+# ======================================================================
+# Time Complexity: O(), Space Complexity: O()
+class Solution():
+    def reorderList(self, head):
+        
+        if head is None:
+            return
+
+        slow = head # 1
+        fast = head.next # 2
+
+        # Catch middle
+        while fast and fast.next:
+            fast = fast.next.next # last : 4
+            slow = slow.next # middle : 2
+
+        # Reverse the latter half
+        rev = None
+        cur = slow.next # 3
+        while cur: # 3 -> 4
+            rev, rev.next, cur = cur, rev, cur.next # 3-None, 4 -> 4-3-None, None 
+
+        slow.next = None
+
+        # Connect
+        while rev: # 4-3-None
+            h_next = head.next # 2
+            r_next = rev.next # 3
+            head.next = rev   # 4
+            rev.next = h_next # 2
+            rev = r_next      # 3
+            head = h_next      # 2
